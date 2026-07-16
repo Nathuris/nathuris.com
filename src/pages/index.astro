@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const music = await getCollection('music');
+const projects = await getCollection('projects');
+const posts = await getCollection('blog');
+
+// 精选推荐：选最新的 4 首音乐 + 4 个项目
+const featuredMusic = music
+  .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))
+  .slice(0, 4);
+
+const featuredProjects = projects
+  .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))
+  .slice(0, 4);
+
+const recentPosts = posts
+  .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))
+  .slice(0, 3);
+---
+
+<BaseLayout title="首页" description="Nathuris 的个人网站 — 音乐人 & 开发者，展示原创音乐与 Vibe Coding 作品。">
+
+  <!-- Hero 区域 -->
+  <section class="py-20 sm:py-32">
+    <div class="container-main text-center">
+      <div class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-accent-100 text-4xl dark:bg-accent-950">
+        🎵
+      </div>
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+        Hi, 我是 <span class="text-accent-600 dark:text-accent-400">Nathuris</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        音乐人 & 开发者。这里陈列着我的原创音乐作品和 Vibe Coding 项目成果。
+        用旋律表达情感，用代码创造可能。
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="/music/" class="btn btn-primary">🎧 听听音乐</a>
+        <a href="/projects/" class="btn btn-outline">💻 看看项目</a>
+        <a href="/contact/" class="btn btn-outline">📬 联系我</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 精选音乐 -->
+  {
+    featuredMusic.length > 0 && (
+      <section class="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div class="container-main">
+          <div class="mb-8 flex items-end justify-between">
+            <div>
+              <h2 class="section-title">🎧 音乐作品</h2>
+              <p class="mt-2 text-slate-500 dark:text-slate-400">原创音乐精选</p>
+            </div>
+            <a href="/music/" class="btn btn-outline text-sm">
+              全部作品 →
+            </a>
+          </div>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredMusic.map((item) => (
+              <article class="card group">
+                <a href={`/music/${item.id}/`} class="no-underline">
+                  {item.data.coverImage ? (
+                    <div class="mb-3 aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <img src={item.data.coverImage} alt={item.data.title} class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                    </div>
+                  ) : (
+                    <div class="mb-3 flex aspect-square items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <svg class="h-10 w-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                      </svg>
+                    </div>
+                  )}
+                  <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400">{item.data.title}</h3>
+                </a>
+                {item.data.description && (
+                  <p class="mt-1 line-clamp-1 text-xs text-slate-500 dark:text-slate-400">{item.data.description}</p>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 精选项目 -->
+  {
+    featuredProjects.length > 0 && (
+      <section class="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div class="container-main">
+          <div class="mb-8 flex items-end justify-between">
+            <div>
+              <h2 class="section-title">💻 项目作品</h2>
+              <p class="mt-2 text-slate-500 dark:text-slate-400">Vibe Coding 精选项目</p>
+            </div>
+            <a href="/projects/" class="btn btn-outline text-sm">
+              全部项目 →
+            </a>
+          </div>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredProjects.map((item) => (
+              <article class="card group">
+                <a href={`/projects/${item.id}/`} class="no-underline">
+                  {item.data.image ? (
+                    <div class="mb-3 aspect-video overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <img src={item.data.image} alt={item.data.title} class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                    </div>
+                  ) : (
+                    <div class="mb-3 flex aspect-video items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <svg class="h-8 w-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                      </svg>
+                    </div>
+                  )}
+                  <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400">{item.data.title}</h3>
+                </a>
+                {item.data.description && (
+                  <p class="mt-1 line-clamp-1 text-xs text-slate-500 dark:text-slate-400">{item.data.description}</p>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 近期博客 -->
+  {
+    recentPosts.length > 0 && (
+      <section class="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div class="container-main">
+          <div class="mb-8 flex items-end justify-between">
+            <div>
+              <h2 class="section-title">📝 近期动态</h2>
+              <p class="mt-2 text-slate-500 dark:text-slate-400">最新文章和分享</p>
+            </div>
+            <a href="/blog/" class="btn btn-outline text-sm">
+              全部文章 →
+            </a>
+          </div>
+          <div class="space-y-4">
+            {recentPosts.map((post) => (
+              <a href={`/blog/${post.id}/`} class="card flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 class="font-semibold text-slate-900 dark:text-white">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{post.data.description}</p>
+                  )}
+                </div>
+                <span class="mt-2 shrink-0 text-xs text-slate-400 sm:mt-0">
+                  {post.data.date?.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 空状态（当所有集合都为空时显示） -->
+  {
+    featuredMusic.length === 0 && featuredProjects.length === 0 && (
+      <section class="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div class="container-main text-center">
+          <p class="text-slate-400 dark:text-slate-500">
+            内容正在准备中，请稍后再来。✨
+          </p>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

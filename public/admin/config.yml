@@ -1,0 +1,82 @@
+backend:
+  name: github
+  repo: Nathuris/nathuris.com
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://nathuris.com
+display_url: https://nathuris.com
+
+# 不保存空字段，保持内容干净
+output:
+  omit_empty_optional_fields: true
+
+# 编辑界面配置
+editor:
+  preview: false
+
+# ============================================
+# 音乐作品集合
+# ============================================
+collections:
+  - name: music
+    label: 🎧 音乐作品
+    label_singular: 音乐作品
+    folder: src/content/music
+    create: true
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string, required: true, hint: 音乐作品的名称 }
+      - { label: 发布日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
+      - { label: 封面图, name: coverImage, widget: image, required: false, hint: 正方形的封面图效果最好 }
+      - { label: 简介, name: description, widget: text, required: false, hint: 一句话描述 }
+      - { label: 音频文件 (MP3), name: audioUrl, widget: file, required: false, hint: 上传 MP3 文件，如果使用 SoundCloud 可以留空 }
+      - { label: SoundCloud 链接, name: soundcloudUrl, widget: string, required: false, hint: 粘贴 SoundCloud 歌曲链接 }
+      - { label: 风格标签, name: tags, widget: list, required: false, hint: 例如：电子、氛围、古典 }
+      - { label: 正文, name: body, widget: markdown, required: false, hint: 创作背景、灵感来源等详细内容 }
+
+  # ============================================
+  # 项目作品集合
+  # ============================================
+  - name: projects
+    label: 💻 项目作品
+    label_singular: 项目作品
+    folder: src/content/projects
+    create: true
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string, required: true, hint: 项目名称 }
+      - { label: 完成日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
+      - { label: 截图, name: image, widget: image, required: false, hint: 项目截图或封面 }
+      - { label: 简介, name: description, widget: text, required: false, hint: 一句话介绍这个项目 }
+      - { label: 在线演示链接, name: demoUrl, widget: string, required: false, hint: 如果部署了在线版本，粘贴链接 }
+      - { label: 源码链接, name: sourceUrl, widget: string, required: false, hint: GitHub 或其他代码仓库链接 }
+      - { label: 技术标签, name: tags, widget: list, required: false, hint: 例如：Web、Python、AI }
+      - { label: 正文, name: body, widget: markdown, required: false, hint: 详细介绍项目背景、技术细节等 }
+
+  # ============================================
+  # 博客文章集合
+  # ============================================
+  - name: blog
+    label: 📝 博客
+    label_singular: 博客文章
+    folder: src/content/blog
+    create: true
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string, required: true, hint: 文章标题 }
+      - { label: 发布日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
+      - { label: 摘要, name: description, widget: text, required: false, hint: 简短摘要，会显示在列表中 }
+      - { label: 分类标签, name: tags, widget: list, required: false, hint: 例如：公告、技术、生活 }
+      - { label: 正文, name: body, widget: markdown, required: false, hint: 文章正文内容 }

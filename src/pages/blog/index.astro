@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts.sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0));
+---
+
+<BaseLayout title="博客" description="Nathuris 的博客与动态">
+
+  <section class="py-16">
+    <div class="container-main">
+      <div class="mb-8">
+        <h1 class="section-title">📝 博客</h1>
+        <p class="mt-2 text-slate-500 dark:text-slate-400">想法、动态与分享</p>
+      </div>
+
+      {
+        posts.length > 0 ? (
+          <div class="space-y-4">
+            {posts.map((post) => (
+              <a href={`/blog/${post.id}/`} class="card flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 class="font-semibold text-slate-900 dark:text-white">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-1">{post.data.description}</p>
+                  )}
+                </div>
+                <div class="mt-2 flex shrink-0 items-center gap-3 sm:mt-0 sm:ml-4">
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <div class="hidden gap-1 sm:flex">
+                      {post.data.tags.slice(0, 2).map((tag) => <span class="tag">{tag}</span>)}
+                    </div>
+                  )}
+                  <span class="text-xs text-slate-400">
+                    {post.data.date?.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="py-20 text-center">
+            <p class="text-slate-400 dark:text-slate-500">还没有文章，敬请期待 📝</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

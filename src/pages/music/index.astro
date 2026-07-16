@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MusicCard from '../../components/MusicCard.astro';
+import { getCollection } from 'astro:content';
+
+const allMusic = await getCollection('music');
+const music = allMusic.sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0));
+
+// 收集所有标签用于筛选
+const allTags = [...new Set(music.flatMap((m) => m.data.tags || []))].sort();
+---
+
+<BaseLayout title="音乐作品" description="Nathuris 的原创音乐作品集">
+
+  <section class="py-16">
+    <div class="container-main">
+      <!-- 标题 -->
+      <div class="mb-8">
+        <h1 class="section-title">🎧 音乐作品</h1>
+        <p class="mt-2 text-slate-500 dark:text-slate-400">
+          原创音乐，用旋律记录灵感
+        </p>
+      </div>
+
+      <!-- 标签筛选 -->
+      {
+        allTags.length > 0 && (
+          <div class="mb-8 flex flex-wrap gap-2">
+            <button class="tag cursor-pointer bg-accent-100 text-accent-700 dark:bg-accent-950 dark:text-accent-400 tag-filter active" data-tag="all">
+              全部
+            </button>
+            {allTags.map((tag) => (
+              <button class="tag cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 tag-filter" data-tag={tag}>
+                {tag}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <!-- 作品网格 -->
+      {
+        music.length > 0 ? (
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="music-grid">
+            {music.map((item) => (
+              <div class="music-item" data-tags={JSON.stringify(item.data.tags || [])}>
+                <MusicCard
+                  title={item.data.title}
+                  description={item.data.description}
+                  coverImage={item.data.coverImage}
+                  audioUrl={item.data.audioUrl}
+                  soundcloudUrl={item.data.soundcloudUrl}
+                  tags={item.data.tags}
+                  date={item.data.date}
+                  slug={item.id}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="py-20 text-center">
+            <p class="text-slate-400 dark:text-slate-500">还没有音乐作品，敬请期待 🎵</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.tag-filter')?.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tag = (btn as HTMLElement).dataset.tag;
+      // 更新按钮状态
+      document.querySelectorAll('.tag-filter').forEach((b) => {
+        b.classList.remove('bg-accent-100', 'text-accent-700', 'dark:bg-accent-950', 'dark:text-accent-400', 'active');
+      });
+      btn.classList.add('bg-accent-100', 'text-accent-700', 'dark:bg-accent-950', 'dark:text-accent-400', 'active');
+
+      // 筛选
+      document.querySelectorAll('.music-item').forEach((item) => {
+        const el = item as HTMLElement;
+        const tags: string[] = JSON.parse(el.dataset.tags || '[]');
+        if (tag === 'all' || tags.includes(tag || '')) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
