@@ -1,7 +1,7 @@
 ---
 title: Hidden Place
 category: 原创音乐
-order: 0
+order: 23
 date: 2024-06-18
 coverImage: /uploads/11.png
 description: 'Type: WoS Origin/原创作品'
