@@ -25,7 +25,7 @@ collections:
     label: ⚙️ 站点设置
     label_singular: 站点设置
     folder: src/content/settings
-    create: false
+    create: true
     format: yaml-frontmatter
     slug: "{{slug}}"
     fields:
