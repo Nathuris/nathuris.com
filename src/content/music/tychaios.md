@@ -1,7 +1,7 @@
 ---
 title: Tychaios
 category: 原创音乐
-order: 0
+order: 13
 date: 2023-09-24
 coverImage: /uploads/5.png
 description: 'Type: WoS Origin/原创作品'
