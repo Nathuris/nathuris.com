@@ -1,5 +1,7 @@
 ---
 title: 谕中人
+category: 原创音乐
+order: 100
 date: 2025-11-02
 coverImage: /uploads/2024 Selection.png
 description: Type：WoS Commission/可公开的委托作品
