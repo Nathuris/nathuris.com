@@ -1,7 +1,7 @@
 ---
 title: Expiation
 category: 原创音乐
-order: 0
+order: 27
 date: 2024-09-01
 coverImage: /uploads/16.png
 description: 'Type: WoS Origin/原创作品'
