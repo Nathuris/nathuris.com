@@ -1,6 +1,7 @@
 ---
 title: Nathuris.com
 date: 2026-07-16
+order: 0
 image: /uploads/pasted-image-1784263064708.png
 description: 我的个人主页
 sourceUrl: https://github.com/Nathuris/nathuris.com
