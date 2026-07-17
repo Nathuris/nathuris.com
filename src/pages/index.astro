@@ -5,6 +5,8 @@ import { getCollection } from 'astro:content';
 const music = await getCollection('music');
 const projects = await getCollection('projects');
 const posts = await getCollection('blog');
+const settingsList = await getCollection('settings');
+const site = settingsList[0]?.data;
 
 // 精选推荐：选最新的 4 首音乐 + 4 个项目
 const featuredMusic = music
@@ -31,10 +33,11 @@ const recentPosts = posts
       <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
         Hi, 我是 <span class="text-accent-600 dark:text-accent-400">Nathuris</span>
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
-        音乐人 & 开发者。这里陈列着我的原创音乐作品和 Vibe Coding 项目成果。
-        用旋律表达情感，用代码创造可能。
-      </p>
+      {site?.bio && (
+        <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+          {site.bio}
+        </p>
+      )}
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a href="/music/" class="btn btn-primary">🎧 听听音乐</a>
         <a href="/projects/" class="btn btn-outline">💻 看看项目</a>

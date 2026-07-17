@@ -18,9 +18,27 @@ editor:
   preview: false
 
 # ============================================
-# 音乐作品集合
+# 站点设置（只有一个文件，修改联系方式等）
 # ============================================
 collections:
+  - name: settings
+    label: ⚙️ 站点设置
+    label_singular: 站点设置
+    folder: src/content/settings
+    create: false
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: 联系邮箱, name: email, widget: string, required: false, hint: 显示在联系页和网站底部 }
+      - { label: GitHub 链接, name: github, widget: string, required: false, hint: 你的 GitHub 主页链接 }
+      - { label: 网易云音乐链接, name: neteaseMusic, widget: string, required: false, hint: 网易云音乐主页链接 }
+      - { label: Bilibili 链接, name: bilibili, widget: string, required: false, hint: Bilibili 主页链接 }
+      - { label: 微博链接, name: weibo, widget: string, required: false, hint: 微博主页链接 }
+      - { label: 个人简介, name: bio, widget: text, required: false, hint: 显示在网站首页的自我介绍，一句话概括 }
+
+  # ============================================
+  # 音乐作品集合
+  # ============================================
   - name: music
     label: 🎧 音乐作品
     label_singular: 音乐作品

@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const settings = await getCollection('settings');
+const site = settings[0]?.data;
 ---
 
 <BaseLayout title="联系" description="联系 Nathuris">
@@ -14,34 +18,69 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <div class="mt-12 grid gap-6 sm:grid-cols-2">
           <!-- 邮箱 -->
-          <a href="mailto:hi@nathuris.com" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
-              <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <h3 class="font-semibold text-slate-900 dark:text-white">电子邮件</h3>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">hi@nathuris.com</p>
-          </a>
+          {site?.email && (
+            <a href={`mailto:${site.email}`} class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
+                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">电子邮件</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{site.email}</p>
+            </a>
+          )}
 
           <!-- GitHub -->
-          <a href="https://github.com/Nathuris" target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
-              <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-            </div>
-            <h3 class="font-semibold text-slate-900 dark:text-white">GitHub</h3>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">@Nathuris</p>
-          </a>
-        </div>
+          {site?.github && (
+            <a href={site.github} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
+                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">GitHub</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{site.github.replace('https://github.com/', '@')}</p>
+            </a>
+          )}
 
-        <!-- 其他社交链接 -->
-        <div class="mt-16 text-center">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-white">其他平台</h3>
-          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            SoundCloud、Bilibili、小红书等平台的链接也在这里（后续可以随时在后台添加）
-          </p>
+          <!-- 网易云音乐 -->
+          {site?.neteaseMusic && (
+            <a href={site.neteaseMusic} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
+                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                </svg>
+              </div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">网易云音乐</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在网易云关注我</p>
+            </a>
+          )}
+
+          <!-- Bilibili -->
+          {site?.bilibili && (
+            <a href={site.bilibili} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
+                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.223 3.086a1.25 1.25 0 010 1.768L17.08 5.996h1.17A3.75 3.75 0 0122 9.747v7.5a3.75 3.75 0 01-3.75 3.75H5.75A3.75 3.75 0 012 17.247v-7.5a3.75 3.75 0 013.75-3.75h1.166L5.775 4.855a1.25 1.25 0 111.768-1.768l2.011 2.01c.361.36.714.714 1.058 1.058.33-.33.668-.67 1.014-1.014l2.011-2.01a1.25 1.25 0 011.768 0l.002.002zM10.75 11.25a1.5 1.5 0 00-1.5 1.5v2.25a1.5 1.5 0 003 0v-2.25a1.5 1.5 0 00-1.5-1.5zm4 0a1.5 1.5 0 00-1.5 1.5v2.25a1.5 1.5 0 003 0v-2.25a1.5 1.5 0 00-1.5-1.5z"/>
+                </svg>
+              </div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">Bilibili</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在 B站 关注我</p>
+            </a>
+          )}
+
+          <!-- 微博 -->
+          {site?.weibo && (
+            <a href={site.weibo} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
+                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.194 14.197c0 3.862-4.693 6.993-10.5 6.993S-.806 18.059-.806 14.197c0-.94.282-1.83.8-2.61.08-.138.175-.239.18-.241a.24.24 0 01.233.04 5.109 5.109 0 004.113 1.673c3.888 0 5.755-2.2 6.127-3.847.042-.185.18-.353.286-.506 1.626-.064 3.145.24 4.398.873a4.56 4.56 0 011.91 1.867c.478.86.733 1.81.733 2.75zM5.706 9.37a1.01 1.01 0 01-.395-.057c-.554-.226-.898-.859-.775-1.434.116-.539.674-.904 1.222-.787.55.118.903.671.774 1.243a1.047 1.047 0 01-1.014.925l.188.11z"/>
+                </svg>
+              </div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">微博</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在微博关注我</p>
+            </a>
+          )}
         </div>
       </div>
     </div>

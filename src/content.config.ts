@@ -36,8 +36,21 @@ const blogCollection = defineCollection({
   }),
 });
 
+const settingsCollection = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/settings' }),
+  schema: z.object({
+    email: z.string().optional().default(''),
+    github: z.string().optional().default(''),
+    neteaseMusic: z.string().optional().default(''),
+    bilibili: z.string().optional().default(''),
+    weibo: z.string().optional().default(''),
+    bio: z.string().optional().default(''),
+  }),
+});
+
 export const collections = {
   music: musicCollection,
   projects: projectsCollection,
   blog: blogCollection,
+  settings: settingsCollection,
 };
