@@ -1,7 +1,7 @@
 ---
 title: Lantinark
 category: 原创音乐
-order: 0
+order: 22
 date: 2024-02-18
 coverImage: /uploads/14.png
 description: 'Type: WoS Origin/原创作品'
