@@ -1,7 +1,7 @@
 ---
 title: N.O.W. Mix Vol. 2
 category: 混音
-order: 4000
+order: 9000
 date: 2026-01-17
 coverImage: /uploads/NOWBG.png
 description: Uplifting Trance
