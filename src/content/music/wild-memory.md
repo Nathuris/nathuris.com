@@ -1,7 +1,7 @@
 ---
 title: Wild Memory
 category: 原创音乐
-order: 0
+order: 18
 date: 2023-11-04
 coverImage: /uploads/7.png
 description: 'Type: WoS Origin/原创作品'
