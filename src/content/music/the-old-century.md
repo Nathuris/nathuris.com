@@ -1,7 +1,7 @@
 ---
 title: The Old Century
 category: 原创音乐
-order: 0
+order: 8
 date: 2023-06-24
 coverImage: /uploads/8.png
 description: 'Type: WoS Origin/原创作品'
