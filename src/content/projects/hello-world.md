@@ -1,5 +1,5 @@
 ---
-title: 示例项目
+title: Nathuris.com
 date: 2026-07-16
 image: /uploads/pasted-image-1784263064708.png
 description: 我的个人主页
