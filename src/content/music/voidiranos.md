@@ -1,7 +1,7 @@
 ---
 title: Voidiranos
 category: 原创音乐
-order: 0
+order: 29
 date: 2025-05-24
 coverImage: /uploads/2025.png
 description: 'Type: WoS Origin/原创作品'
