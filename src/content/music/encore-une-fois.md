@@ -1,7 +1,7 @@
 ---
 title: Encore Une Fois
 category: 原创音乐
-order: 0
+order: 20
 date: 2024-01-01
 coverImage: /uploads/13.png
 description: 'Type: WoS Origin/原创作品'
