@@ -1,7 +1,7 @@
 ---
 title: TaLk to SiLence
 category: 原创音乐
-order: 0
+order: 14
 date: 2023-10-14
 coverImage: /uploads/9.png
 description: 'Type: WoS Origin/原创作品'
