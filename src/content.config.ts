@@ -8,6 +8,7 @@ const musicCollection = defineCollection({
     description: z.string().optional(),
     coverImage: z.string().optional(),
     linkUrl: z.string().optional(),
+    category: z.enum(['原创音乐', '混音']).optional().default('原创音乐'),
     tags: z.array(z.string()).optional().default([]),
     date: z.date().optional(),
   }),

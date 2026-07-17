@@ -50,6 +50,7 @@ collections:
     sortable_fields: [date, title]
     fields:
       - { label: 标题, name: title, widget: string, required: true, hint: 音乐作品的名称 }
+      - { label: 分类, name: category, widget: select, required: false, options: ["原创音乐", "混音"], default: "原创音乐", hint: 选择属于原创音乐还是混音 }
       - { label: 发布日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
       - { label: 封面图, name: coverImage, widget: image, required: false, hint: 正方形的封面图效果最好 }
       - { label: 简介, name: description, widget: text, required: false, hint: 一句话描述 }
