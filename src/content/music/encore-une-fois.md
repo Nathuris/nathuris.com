@@ -1,0 +1,10 @@
+---
+title: Encore Une Fois
+category: 原创音乐
+order: 0
+coverImage: /uploads/13.png
+linkUrl: https://music.163.com/song?id=2113432624&uct2=U2FsdGVkX19AekzYLQUx/2cpf7+yVeiWf8pGWZIuRyY=
+tags:
+  - 交响
+  - 管弦
+---
