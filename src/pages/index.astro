@@ -9,13 +9,16 @@ const settingsList = await getCollection('settings');
 const site = settingsList[0]?.data;
 
 // 精选推荐：选最新的 4 首音乐 + 4 个项目
-const featuredMusic = music
-  .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))
-  .slice(0, 4);
+const sortByOrderAndDate = (a: any, b: any) => {
+  const orderA = a.data.order ?? 0;
+  const orderB = b.data.order ?? 0;
+  if (orderB !== orderA) return orderB - orderA;
+  return (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0);
+};
 
-const featuredProjects = projects
-  .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))
-  .slice(0, 4);
+const featuredMusic = music.sort(sortByOrderAndDate).slice(0, 4);
+
+const featuredProjects = projects.sort(sortByOrderAndDate).slice(0, 4);
 
 const recentPosts = posts
   .sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0))

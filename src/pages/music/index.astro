@@ -4,7 +4,12 @@ import MusicCard from '../../components/MusicCard.astro';
 import { getCollection } from 'astro:content';
 
 const allMusic = await getCollection('music');
-const music = allMusic.sort((a, b) => (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0));
+const music = allMusic.sort((a, b) => {
+  const orderA = a.data.order ?? 0;
+  const orderB = b.data.order ?? 0;
+  if (orderB !== orderA) return orderB - orderA;
+  return (b.data.date?.getTime() || 0) - (a.data.date?.getTime() || 0);
+});
 
 const originalMusic = music.filter((m) => (m.data.category || '原创音乐') === '原创音乐');
 const remixMusic = music.filter((m) => m.data.category === '混音');

@@ -11,6 +11,7 @@ const musicCollection = defineCollection({
     category: z.enum(['原创音乐', '混音']).optional().default('原创音乐'),
     tags: z.array(z.string()).optional().default([]),
     date: z.date().optional(),
+    order: z.number().optional().default(0),
   }),
 });
 
@@ -23,6 +24,7 @@ const projectsCollection = defineCollection({
     tags: z.array(z.string()).optional().default([]),
     sourceUrl: z.string().optional(),
     date: z.date().optional(),
+    order: z.number().optional().default(0),
   }),
 });
 
