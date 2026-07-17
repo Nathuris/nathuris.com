@@ -1,5 +1,5 @@
 ---
-title: WoS N.O.W. Vol. 1
+title: N.O.W. Mix Vol. 1
 category: 混音
 date: 2025-12-20
 coverImage: /uploads/NOWBG.png
