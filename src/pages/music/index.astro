@@ -48,8 +48,7 @@ const allTags = [...new Set(music.flatMap((m) => m.data.tags || []))].sort();
                   title={item.data.title}
                   description={item.data.description}
                   coverImage={item.data.coverImage}
-                  audioUrl={item.data.audioUrl}
-                  soundcloudUrl={item.data.soundcloudUrl}
+                  linkUrl={item.data.linkUrl}
                   tags={item.data.tags}
                   date={item.data.date}
                   slug={item.id}

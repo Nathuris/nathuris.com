@@ -35,8 +35,7 @@ collections:
       - { label: 发布日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
       - { label: 封面图, name: coverImage, widget: image, required: false, hint: 正方形的封面图效果最好 }
       - { label: 简介, name: description, widget: text, required: false, hint: 一句话描述 }
-      - { label: 音频文件 (MP3), name: audioUrl, widget: file, required: false, hint: 上传 MP3 文件，如果使用 SoundCloud 可以留空 }
-      - { label: SoundCloud 链接, name: soundcloudUrl, widget: string, required: false, hint: 粘贴 SoundCloud 歌曲链接 }
+      - { label: 收听链接, name: linkUrl, widget: string, required: false, hint: 粘贴网易云音乐等平台的歌曲链接，网站上会显示跳转按钮 }
       - { label: 风格标签, name: tags, widget: list, required: false, hint: 例如：电子、氛围、古典 }
       - { label: 正文, name: body, widget: markdown, required: false, hint: 创作背景、灵感来源等详细内容 }
 

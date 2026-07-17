@@ -3,14 +3,13 @@ export interface Props {
   title: string;
   description?: string;
   coverImage?: string;
-  audioUrl?: string;
-  soundcloudUrl?: string;
+  linkUrl?: string;
   tags?: string[];
   date?: Date;
   slug: string;
 }
 
-const { title, description, coverImage, audioUrl, soundcloudUrl, tags, date, slug } = Astro.props;
+const { title, description, coverImage, linkUrl, tags, date, slug } = Astro.props;
 ---
 
 <article class="card group">
