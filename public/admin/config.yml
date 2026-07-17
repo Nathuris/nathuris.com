@@ -29,6 +29,7 @@ collections:
     format: yaml-frontmatter
     slug: "{{slug}}"
     fields:
+      - { label: 头像, name: avatar, widget: image, required: false, hint: 显示在首页顶部，正方形图片效果最好 }
       - { label: 联系邮箱, name: email, widget: string, required: false, hint: 显示在联系页和网站底部 }
       - { label: GitHub 链接, name: github, widget: string, required: false, hint: 你的 GitHub 主页链接 }
       - { label: 网易云音乐链接, name: neteaseMusic, widget: string, required: false, hint: 网易云音乐主页链接 }

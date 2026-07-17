@@ -1,4 +1,5 @@
 ---
+avatar: ''
 email: hi@nathuris.com
 github: https://github.com/Nathuris
 neteaseMusic: ''

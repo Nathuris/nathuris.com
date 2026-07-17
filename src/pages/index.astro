@@ -27,8 +27,12 @@ const recentPosts = posts
   <!-- Hero 区域 -->
   <section class="py-20 sm:py-32">
     <div class="container-main text-center">
-      <div class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-accent-100 text-4xl dark:bg-accent-950">
-        🎵
+      <div class="mx-auto mb-6 h-24 w-24 overflow-hidden rounded-full bg-accent-100 dark:bg-accent-950">
+        {site?.avatar ? (
+          <img src={site.avatar} alt="Nathuris" class="h-full w-full object-cover" />
+        ) : (
+          <span class="flex h-full w-full items-center justify-center text-4xl">🎵</span>
+        )}
       </div>
       <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
         Hi, 我是 <span class="text-accent-600 dark:text-accent-400">Nathuris</span>

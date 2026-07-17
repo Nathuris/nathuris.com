@@ -38,6 +38,7 @@ const blogCollection = defineCollection({
 const settingsCollection = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/settings' }),
   schema: z.object({
+    avatar: z.string().optional().default(''),
     email: z.string().optional().default(''),
     github: z.string().optional().default(''),
     neteaseMusic: z.string().optional().default(''),
