@@ -1,10 +1,10 @@
 ---
-avatar: ''
-email: hi@nathuris.com
+avatar: /uploads/retouch_2025080717111613.jpg
+email: 201570870@qq.com
 github: https://github.com/Nathuris
-neteaseMusic: ''
-douyin: ''
-bio: 音乐人 & 开发者。这里陈列着我的原创音乐作品和 Vibe Coding 项目成果。
+neteaseMusic: https://music.163.com/#/artist?id=56095306
+douyin: https://v.douyin.com/Aa9YnUqJjOs/ 1@8.com :4pm
+bio: 你好，我是南川！
 ---
 
 这里不用填
