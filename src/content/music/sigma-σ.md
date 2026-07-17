@@ -1,7 +1,7 @@
 ---
 title: Sigma - "Σ"
 category: 原创音乐
-order: 90
+order: 9000
 date: 2025-10-02
 coverImage: /uploads/2025 (2).png
 description: 'Type: WoS Origin/原创作品'
