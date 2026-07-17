@@ -1,7 +1,7 @@
 ---
 title: Silence
 category: 原创音乐
-order: 0
+order: 25
 date: 2024-08-25
 coverImage: /uploads/12.png
 description: 'Type: WoS Origin/原创作品'
