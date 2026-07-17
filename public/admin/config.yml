@@ -46,12 +46,15 @@ collections:
     create: true
     format: yaml-frontmatter
     slug: "{{slug}}"
-    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    summary: "{{title}} — 排序: {{order}}"
     sortable_fields: [order, date, title]
+    view_filters:
+      - { label: 原创音乐, field: category, pattern: 原创音乐 }
+      - { label: 混音, field: category, pattern: 混音 }
     fields:
       - { label: 标题, name: title, widget: string, required: true, hint: 音乐作品的名称 }
       - { label: 分类, name: category, widget: select, required: false, options: ["原创音乐", "混音"], default: "原创音乐", hint: 选择属于原创音乐还是混音 }
-      - { label: 排序, name: order, widget: number, required: false, default: 0, hint: 数字越大越靠前，相同数字按日期排序 }
+      - { label: 排序, name: order, widget: number, required: false, default: 0, hint: 数字越大越靠前。比如想让某首排第一就填100，第二填90，以此类推 }
       - { label: 发布日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
       - { label: 封面图, name: coverImage, widget: image, required: false, hint: 正方形的封面图效果最好 }
       - { label: 简介, name: description, widget: text, required: false, hint: 一句话描述 }
@@ -69,12 +72,12 @@ collections:
     create: true
     format: yaml-frontmatter
     slug: "{{slug}}"
-    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    summary: "{{title}} — 排序: {{order}}"
     sortable_fields: [order, date, title]
     fields:
       - { label: 标题, name: title, widget: string, required: true, hint: 项目名称 }
       - { label: 完成日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
-      - { label: 排序, name: order, widget: number, required: false, default: 0, hint: 数字越大越靠前，相同数字按日期排序 }
+      - { label: 排序, name: order, widget: number, required: false, default: 0, hint: 数字越大越靠前。比如想让某个置顶就填100，第二个填90，以此类推 }
       - { label: 截图, name: image, widget: image, required: false, hint: 项目截图或封面 }
       - { label: 简介, name: description, widget: text, required: false, hint: 一句话介绍这个项目 }
       - { label: 源码链接, name: sourceUrl, widget: string, required: false, hint: GitHub 或其他代码仓库链接 }
