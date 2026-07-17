@@ -1,7 +1,6 @@
 ---
 title: N.O.W. Mix Vol. 1
 category: 混音
-order: 1
 date: 2025-12-20
 coverImage: /uploads/NOWBG.png
 description: Uplifting Trance
