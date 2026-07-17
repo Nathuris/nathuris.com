@@ -1,7 +1,7 @@
 ---
 title: N.O.W. Mix Vol.3
 category: 混音
-order: 8000
+order: 9001
 date: 2026-03-06
 coverImage: /uploads/NOWBG.png
 description: Drum & Bass

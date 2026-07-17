@@ -1,0 +1,12 @@
+---
+title: Ville Natale
+category: 原创音乐
+order: 21
+date: 2024-02-18
+coverImage: /uploads/14.png
+description: 'Type: WoS Origin/原创作品'
+linkUrl: https://music.163.com/song?id=2127588752&uct2=U2FsdGVkX19Zi68Zc5+eZv/3cBFH29BiKtdi3HEBqMo=
+tags:
+  - 氛围
+  - 管弦
+---
