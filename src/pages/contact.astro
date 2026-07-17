@@ -56,29 +56,16 @@ const site = settings[0]?.data;
             </a>
           )}
 
-          <!-- Bilibili -->
-          {site?.bilibili && (
-            <a href={site.bilibili} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
+          <!-- 抖音 -->
+          {site?.douyin && (
+            <a href={site.douyin} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
               <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
                 <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.223 3.086a1.25 1.25 0 010 1.768L17.08 5.996h1.17A3.75 3.75 0 0122 9.747v7.5a3.75 3.75 0 01-3.75 3.75H5.75A3.75 3.75 0 012 17.247v-7.5a3.75 3.75 0 013.75-3.75h1.166L5.775 4.855a1.25 1.25 0 111.768-1.768l2.011 2.01c.361.36.714.714 1.058 1.058.33-.33.668-.67 1.014-1.014l2.011-2.01a1.25 1.25 0 011.768 0l.002.002zM10.75 11.25a1.5 1.5 0 00-1.5 1.5v2.25a1.5 1.5 0 003 0v-2.25a1.5 1.5 0 00-1.5-1.5zm4 0a1.5 1.5 0 00-1.5 1.5v2.25a1.5 1.5 0 003 0v-2.25a1.5 1.5 0 00-1.5-1.5z"/>
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                 </svg>
               </div>
-              <h3 class="font-semibold text-slate-900 dark:text-white">Bilibili</h3>
-              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在 B站 关注我</p>
-            </a>
-          )}
-
-          <!-- 微博 -->
-          {site?.weibo && (
-            <a href={site.weibo} target="_blank" rel="noopener noreferrer" class="card flex flex-col items-center text-center no-underline hover:border-accent-200 dark:hover:border-accent-800">
-              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 dark:bg-accent-950">
-                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.194 14.197c0 3.862-4.693 6.993-10.5 6.993S-.806 18.059-.806 14.197c0-.94.282-1.83.8-2.61.08-.138.175-.239.18-.241a.24.24 0 01.233.04 5.109 5.109 0 004.113 1.673c3.888 0 5.755-2.2 6.127-3.847.042-.185.18-.353.286-.506 1.626-.064 3.145.24 4.398.873a4.56 4.56 0 011.91 1.867c.478.86.733 1.81.733 2.75zM5.706 9.37a1.01 1.01 0 01-.395-.057c-.554-.226-.898-.859-.775-1.434.116-.539.674-.904 1.222-.787.55.118.903.671.774 1.243a1.047 1.047 0 01-1.014.925l.188.11z"/>
-                </svg>
-              </div>
-              <h3 class="font-semibold text-slate-900 dark:text-white">微博</h3>
-              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在微博关注我</p>
+              <h3 class="font-semibold text-slate-900 dark:text-white">抖音</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">在抖音关注我</p>
             </a>
           )}
         </div>

@@ -32,8 +32,7 @@ collections:
       - { label: 联系邮箱, name: email, widget: string, required: false, hint: 显示在联系页和网站底部 }
       - { label: GitHub 链接, name: github, widget: string, required: false, hint: 你的 GitHub 主页链接 }
       - { label: 网易云音乐链接, name: neteaseMusic, widget: string, required: false, hint: 网易云音乐主页链接 }
-      - { label: Bilibili 链接, name: bilibili, widget: string, required: false, hint: Bilibili 主页链接 }
-      - { label: 微博链接, name: weibo, widget: string, required: false, hint: 微博主页链接 }
+      - { label: 抖音链接, name: douyin, widget: string, required: false, hint: 抖音主页链接 }
       - { label: 个人简介, name: bio, widget: text, required: false, hint: 显示在网站首页的自我介绍，一句话概括 }
 
   # ============================================
@@ -74,7 +73,6 @@ collections:
       - { label: 完成日期, name: date, widget: datetime, required: false, format: YYYY-MM-DD }
       - { label: 截图, name: image, widget: image, required: false, hint: 项目截图或封面 }
       - { label: 简介, name: description, widget: text, required: false, hint: 一句话介绍这个项目 }
-      - { label: 在线演示链接, name: demoUrl, widget: string, required: false, hint: 如果部署了在线版本，粘贴链接 }
       - { label: 源码链接, name: sourceUrl, widget: string, required: false, hint: GitHub 或其他代码仓库链接 }
       - { label: 技术标签, name: tags, widget: list, required: false, hint: 例如：Web、Python、AI }
       - { label: 正文, name: body, widget: markdown, required: false, hint: 详细介绍项目背景、技术细节等 }

@@ -20,7 +20,6 @@ const projectsCollection = defineCollection({
     description: z.string().optional(),
     image: z.string().optional(),
     tags: z.array(z.string()).optional().default([]),
-    demoUrl: z.string().optional(),
     sourceUrl: z.string().optional(),
     date: z.date().optional(),
   }),
@@ -42,8 +41,7 @@ const settingsCollection = defineCollection({
     email: z.string().optional().default(''),
     github: z.string().optional().default(''),
     neteaseMusic: z.string().optional().default(''),
-    bilibili: z.string().optional().default(''),
-    weibo: z.string().optional().default(''),
+    douyin: z.string().optional().default(''),
     bio: z.string().optional().default(''),
   }),
 });

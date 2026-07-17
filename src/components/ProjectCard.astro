@@ -4,12 +4,11 @@ export interface Props {
   description?: string;
   image?: string;
   tags?: string[];
-  demoUrl?: string;
   sourceUrl?: string;
   slug: string;
 }
 
-const { title, description, image, tags, demoUrl, sourceUrl, slug } = Astro.props;
+const { title, description, image, tags, sourceUrl, slug } = Astro.props;
 ---
 
 <article class="card group">
@@ -42,14 +41,6 @@ const { title, description, image, tags, demoUrl, sourceUrl, slug } = Astro.prop
   )}
 
   <div class="mt-4 flex gap-3">
-    {demoUrl && (
-      <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline text-xs">
-        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-        </svg>
-        演示
-      </a>
-    )}
     {sourceUrl && (
       <a href={sourceUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline text-xs">
         <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
