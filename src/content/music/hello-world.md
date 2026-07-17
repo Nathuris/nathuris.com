@@ -1,13 +1,12 @@
 ---
-title: 示例音乐作品
-description: 这是一首示例音乐作品。点击进入详情页，可以看到「在网易云音乐收听」按钮跳转到外部平台。
-linkUrl: https://music.163.com/
-tags:
-  - 电子
-  - 氛围
+title: 谕中人
 date: 2026-07-01
+coverImage: /uploads/2024 Selection.png
+description: |-
+  Type：WoS Commission/可公开的委托作品
+  (为画加用户@用户6MGT2ZRI制作的印象曲委托)
+linkUrl: https://163cn.tv/bbb8PkRN
+tags:
+  - 交响
+  - 氛围
 ---
-
-这是我的第一首原创音乐作品。这里可以写创作背景、灵感来源、制作过程等。
-
-你可以通过 CMS 后台把链接替换成你的网易云歌曲地址。
