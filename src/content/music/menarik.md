@@ -1,7 +1,7 @@
 ---
 title: Menarik
 category: 原创音乐
-order: 0
+order: 6
 date: 2023-06-18
 coverImage: /uploads/4.png
 description: 'Type: WoS Origin/原创作品'
