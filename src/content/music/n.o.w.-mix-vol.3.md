@@ -3,7 +3,7 @@ title: N.O.W. Mix Vol.3
 category: 混音
 date: 2026-03-06
 coverImage: /uploads/NOWBG.png
-linkUrl: https://music.163.com/dj?id=3711991412&uct2=U2FsdGVkX1+Iv5+dVx50KZ7uBC6+MUV8kkEVAtISPuU=
+linkUrl: https://music.163.com/dj?id=3714816204&uct2=U2FsdGVkX19nvN9HW7JvCAouRjop77CM24IZ1RA2JvY=
 tags:
   - Drum & Bass
 ---
