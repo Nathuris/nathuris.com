@@ -1,7 +1,7 @@
 ---
 title: Wanderlust
 category: 原创音乐
-order: 10001
+order: 10000
 date: 2026-07-30
 coverImage: /uploads/1-1.png
 description: 'Type: WoS Origin/原创作品'
