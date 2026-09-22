@@ -13,7 +13,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80">
-  <nav class="container-main flex h-16 items-center justify-between">
+  <nav class="container-main flex h-20 items-center justify-between">
     <a href="/" class="text-xl font-bold text-slate-900 no-underline dark:text-white">
       Nathuris
     </a>
@@ -23,7 +23,7 @@ const currentPath = Astro.url.pathname;
       {navItems.map((item) => (
         <a
           href={item.href}
-          class={`rounded-lg px-3 py-2 text-sm font-medium transition-colors no-underline ${
+          class={`rounded-md px-3.5 py-2 text-sm font-medium transition-colors no-underline ${
             currentPath === item.href
               ? 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-400'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
@@ -57,7 +57,7 @@ const currentPath = Astro.url.pathname;
     {navItems.map((item) => (
       <a
         href={item.href}
-        class={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors no-underline ${
+        class={`block rounded-md px-3.5 py-2 text-sm font-medium transition-colors no-underline ${
           currentPath === item.href
             ? 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-400'
             : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
