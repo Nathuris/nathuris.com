@@ -18,8 +18,10 @@
   --color-accent-900: #144c5c;
   --color-accent-950: #0c323d;
 
-  --font-family-sans: "Inter", "Noto Sans SC", system-ui, -apple-system, sans-serif;
-  --font-family-mono: "JetBrains Mono", "Fira Code", monospace;
+  /* 字体：Tailwind 4 的命名空间是 --font-*
+     写成 --font-family-* 会被静默忽略（之前就是这个毛病） */
+  --font-sans: "Inter", "Noto Sans SC", system-ui, -apple-system, "PingFang SC", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 /* ========== 基础样式 ========== */
@@ -30,6 +32,8 @@
 
   body {
     @apply bg-white text-slate-800 antialiased transition-colors duration-300;
+    /* 显式声明，不依赖 Tailwind 的默认字体变量，更稳妥 */
+    font-family: var(--font-sans);
   }
 
   .dark body {
