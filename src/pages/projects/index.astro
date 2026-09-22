@@ -16,11 +16,11 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags || []))].sort();
 
 <BaseLayout title="项目作品" description="Nathuris 的 Vibe Coding 项目成果">
 
-  <section class="py-16">
+  <section class="py-20 sm:py-24">
     <div class="container-main">
-      <div class="mb-8">
-        <h1 class="section-title">💻 项目作品</h1>
-        <p class="mt-2 text-slate-500 dark:text-slate-400">
+      <div class="mb-12">
+        <h1 class="section-title">项目作品</h1>
+        <p class="mt-3 text-slate-500 dark:text-slate-400">
           我的开发成果
         </p>
       </div>
@@ -28,7 +28,7 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags || []))].sort();
       <!-- 标签筛选 -->
       {
         allTags.length > 0 && (
-          <div class="mb-8 flex flex-wrap gap-2">
+          <div class="mb-10 flex flex-wrap gap-2">
             <button class="tag cursor-pointer bg-accent-100 text-accent-700 dark:bg-accent-950 dark:text-accent-400 tag-filter active" data-tag="all">
               全部
             </button>
@@ -43,7 +43,7 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags || []))].sort();
 
       {
         projects.length > 0 ? (
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="project-grid">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4" id="project-grid">
             {projects.map((item) => (
               <div class="project-item" data-tags={JSON.stringify(item.data.tags || [])}>
                 <ProjectCard
@@ -58,8 +58,8 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags || []))].sort();
             ))}
           </div>
         ) : (
-          <div class="py-20 text-center">
-            <p class="text-slate-400 dark:text-slate-500">还没有项目作品，敬请期待 💻</p>
+          <div class="py-24 text-center">
+            <p class="text-slate-400 dark:text-slate-500">还没有项目作品，敬请期待</p>
           </div>
         )
       }

@@ -56,8 +56,9 @@
 
 /* ========== 组件样式 ========== */
 @layer components {
+  /* 按钮：圆角收小，去掉位移式动画，只保留颜色过渡 */
   .btn {
-    @apply inline-flex items-center gap-2 rounded-lg px-5 py-2.5 font-medium transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-colors duration-200;
   }
 
   .btn-primary {
@@ -65,22 +66,25 @@
   }
 
   .btn-outline {
-    @apply border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800;
+    @apply border border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800;
   }
 
   .section-title {
     @apply text-3xl font-bold tracking-tight sm:text-4xl;
   }
 
+  /* 卡片：去掉投影，改成一根细线描边；悬停时只让边线深一点 */
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900;
+    @apply rounded-lg border border-slate-200 bg-white p-6 transition-colors duration-300 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700;
   }
 
+  /* 标签：从圆滚滚的胶囊改成克制的方角小标签（底色不变） */
   .tag {
-    @apply inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400;
+    @apply inline-block rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400;
   }
 
+  /* 容器：左右留白加大 */
   .container-main {
-    @apply mx-auto max-w-5xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-5xl px-5 sm:px-8 lg:px-10;
   }
 }
