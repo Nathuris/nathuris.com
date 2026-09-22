@@ -22,3 +22,7 @@ Thumbs.db
 # credentials
 .git-credentials
 dist.zip
+
+# 本地备份与改版对比图（只放本地，不传到网上）
+Nathuris-改版前备份-*.zip
+Nathuris-改版对比/
