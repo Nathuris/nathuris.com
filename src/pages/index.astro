@@ -51,9 +51,10 @@ const recentPosts = posts
         <div class="absolute inset-0" aria-hidden="true">
           {heroVideo ? (
             /* 背景视频：静音、循环、自动播放。
-               视频本身就在动，所以不再叠加缩放动画 */
+               视频在上传前已经自己处理过明暗和画质，这里原样铺满，
+               不再叠加压暗、模糊或缩放 */
             <video
-              class="h-full w-full object-cover blur-[3px]"
+              class="h-full w-full object-cover"
               src={heroVideo}
               poster={heroImage || undefined}
               autoplay
@@ -64,19 +65,20 @@ const recentPosts = posts
               data-hero-video
             ></video>
           ) : (
-            /* 背景图：极缓慢地放大又缩回，像在呼吸；放大是为了盖住虚化后的毛边 */
-            <img
-              src={heroImage}
-              alt=""
-              class="fx-kenburns h-full w-full object-cover blur-[3px]"
-              loading="eager"
-              fetchpriority="high"
-            />
+            /* 背景图：压暗 + 轻微模糊 + 极缓慢的缩放「呼吸」
+               （放大一点是为了盖住模糊后边缘露出的毛边） */
+            <>
+              <img
+                src={heroImage}
+                alt=""
+                class="fx-kenburns h-full w-full object-cover blur-[3px]"
+                loading="eager"
+                fetchpriority="high"
+              />
+              <div class="absolute inset-0 bg-slate-950/60" />
+              <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-slate-950/20 to-transparent" />
+            </>
           )}
-          {/* 整体压暗，保证文字清晰 */}
-          <div class="absolute inset-0 bg-slate-950/60" />
-          {/* 左侧再加深一点，文字正好压在这一侧 */}
-          <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-slate-950/20 to-transparent" />
         </div>
       )
     }
