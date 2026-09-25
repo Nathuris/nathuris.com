@@ -3,7 +3,7 @@ title: 谕中人
 category: 原创音乐
 order: 32
 date: 2025-11-02
-coverImage: /uploads/2024 Selection.png
+coverImage: /uploads/2024 Selection.jpg
 description: Type：WoS Commission/可公开的委托作品
 linkUrl: https://music.163.com/song?id=3313590316&uct2=U2FsdGVkX1/2lAyOd3hTzvQlihBOGZc/y8DEPHb/uTo=
 tags:
