@@ -295,7 +295,7 @@
    访客系统若开了「减少动态效果」，下面的媒体查询会直接把它亮出来。 */
 .js-hero video[data-hero-fade] {
   opacity: 0;
-  transition: opacity 0.6s var(--ease-out);
+  transition: opacity 1.4s var(--ease-out);
 }
 
 .js-hero video[data-hero-fade].is-playing {
