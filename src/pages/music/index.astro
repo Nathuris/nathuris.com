@@ -40,6 +40,7 @@ const remixMusic = music.filter((m) => m.data.category === '混音');
                   date={item.data.date}
                   slug={item.id}
                   delay={(i % 4) * 0.09}
+                  eager={i < 4}
                 />
               ))}
             </div>
