@@ -6,12 +6,14 @@ export interface Props {
   tags?: string[];
   sourceUrl?: string;
   slug: string;
+  /** 滚动浮现时的出场延迟（秒），用来让一排卡片依次出现 */
+  delay?: number;
 }
 
-const { title, description, image, tags, sourceUrl, slug } = Astro.props;
+const { title, description, image, tags, sourceUrl, slug, delay = 0 } = Astro.props;
 ---
 
-<article class="card group">
+<article class="card group reveal" style={delay ? `--d:${delay}s` : undefined}>
   <a href={`/projects/${slug}/`} class="no-underline">
     {image ? (
       <div class="mb-5 aspect-video overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">

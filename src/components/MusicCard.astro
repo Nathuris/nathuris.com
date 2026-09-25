@@ -7,12 +7,14 @@ export interface Props {
   tags?: string[];
   date?: Date;
   slug: string;
+  /** 滚动浮现时的出场延迟（秒），用来让一排卡片依次出现 */
+  delay?: number;
 }
 
-const { title, description, coverImage, linkUrl, tags, date, slug } = Astro.props;
+const { title, description, coverImage, linkUrl, tags, date, slug, delay = 0 } = Astro.props;
 ---
 
-<article class="card group">
+<article class="card group reveal" style={delay ? `--d:${delay}s` : undefined}>
   <a href={`/music/${slug}/`} class="no-underline">
     <!-- 封面图 -->
     {coverImage ? (

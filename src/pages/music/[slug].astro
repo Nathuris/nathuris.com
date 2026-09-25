@@ -54,7 +54,7 @@ const { Content } = await render(item);
 
         <!-- 右侧：详情 -->
         <div class="lg:col-span-2">
-          <header class="mb-10">
+          <header class="reveal mb-10">
             <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
             {date && (
               <time class="mt-3 block text-sm text-slate-500 dark:text-slate-400" datetime={date.toISOString()}>
@@ -72,7 +72,7 @@ const { Content } = await render(item);
             <p class="mb-10 text-lg leading-relaxed text-slate-600 dark:text-slate-400">{description}</p>
           )}
 
-          <div class="prose prose-slate max-w-none dark:prose-invert">
+          <div class="prose prose-slate reveal max-w-none dark:prose-invert" style="--d:0.12s">
             <Content />
           </div>
         </div>
