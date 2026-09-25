@@ -1,5 +1,6 @@
 ---
 avatar: /uploads/retouch_2025080717111613.jpg
+heroImage: /uploads/未命名.jpg
 heroVideo: /uploads/1.mp4
 email: 201570870@qq.com
 github: https://github.com/Nathuris
