@@ -58,9 +58,9 @@ const recentPosts = posts
             /* 背景视频：静音、循环、自动播放。
                视频在上传前已经自己处理过明暗和画质，这里原样铺满，
                不再叠加压暗、模糊或缩放。
-               若后台传了「首页顶部背景大图」，它就当封面用：页面一打开先看见它，
-               视频藏在它后面，等真的开始播放了才淡入（见 global.css 与 BaseLayout）。
-               没传封面时不做这个隐藏——否则视频出来之前会是一块空白。 */
+               视频一开始是「藏着」的：页面打开时那块区域先空着，
+               等确认它真的开始播放了，再淡入出来（见 global.css 与 BaseLayout）。
+               若后台传了「首页顶部背景大图」，等待期间显示的就是那张图，而不是空白。 */
             <>
               {heroPoster && (
                 <img
@@ -81,7 +81,7 @@ const recentPosts = posts
                 playsinline
                 preload="auto"
                 data-hero-video
-                data-hero-fade={heroPoster ? true : undefined}
+                data-hero-fade
               ></video>
             </>
           ) : (

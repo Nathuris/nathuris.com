@@ -97,9 +97,9 @@ const fullTitle = `${title} | Nathuris`;
       }
 
       // 首屏背景视频。
-      // 视频一开始是透明的，藏在封面图（视频第一帧）后面；
+      // 视频一开始是完全透明的——那块区域先空着（或显示后台设的封面图）；
       // 等它真的开始播放了，才加上 .is-playing 淡入出来——
-      // 这样就不会看到「静态第一帧」那一跳。
+      // 这样就不会看到「先冒出一帧静止画面、过一会儿才动」。
       function initHeroVideo() {
         const video = document.querySelector('video[data-hero-video]');
         if (!(video instanceof HTMLVideoElement)) return;
@@ -123,7 +123,15 @@ const fullTitle = `${title} | Nathuris`;
 
         video.addEventListener('playing', show, { once: true });
         video.play().catch(() => {
-          /* 自动播放被浏览器拦下时什么也不做：封面图继续留着，也不难看 */
+          /* 自动播放被浏览器拦下（例如开了低电量模式）：先保持隐藏不显示，
+             等访客随便点一下或滑一下再试一次——免得那块区域一直空着 */
+          const retry = () => {
+            window.removeEventListener('pointerdown', retry);
+            window.removeEventListener('scroll', retry);
+            video.play().catch(() => {});
+          };
+          window.addEventListener('pointerdown', retry, { passive: true });
+          window.addEventListener('scroll', retry, { passive: true });
         });
       }
 
