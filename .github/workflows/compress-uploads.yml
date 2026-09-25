@@ -1,0 +1,83 @@
+# 新上传的图片只要超过 500KB，就自动压好并提交。
+# 你不需要做任何事——在后台正常上传，过一两分钟网站上的图就自动变轻了。
+name: 自动压缩上传的图片
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/uploads/**'
+  workflow_dispatch: # 也可以在 GitHub 网页上手动点一下，对整个目录做一次全量检查
+
+permissions:
+  contents: write
+
+# 连续上传多张图时排队处理，避免两个机器人同时改同一批文件
+concurrency:
+  group: compress-uploads
+  cancel-in-progress: false
+
+jobs:
+  compress:
+    # 不理会机器人自己产生的提交，避免来回循环
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 找出这次上传的大图
+        id: find
+        run: |
+          # 手动触发时，对整个上传目录做一次全量检查
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            CANDIDATES=$(find public/uploads -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \))
+          else
+            BEFORE="${{ github.event.before }}"
+            if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+              RANGE="HEAD~1 HEAD"
+            else
+              RANGE="$BEFORE HEAD"
+            fi
+            CANDIDATES=$(git diff --name-only --diff-filter=AM "$RANGE" -- 'public/uploads/')
+          fi
+
+          BIG=""
+          for f in $CANDIDATES; do
+            [ -f "$f" ] || continue
+            SIZE=$(stat -c%s "$f")
+            if [ "$SIZE" -gt 512000 ]; then
+              BIG="$BIG $f"
+              echo "发现大图：$f（$(echo "$SIZE" | awk '{printf "%.1f", $1/1048576}')MB）"
+            fi
+          done
+
+          if [ -z "$BIG" ]; then
+            echo "没有超过 500KB 的图片，不需要处理。"
+          fi
+          echo "big=$BIG" >> "$GITHUB_OUTPUT"
+
+      - name: 压缩并提交
+        if: steps.find.outputs.big != ''
+        run: |
+          set -e
+          npm install sharp --no-save --no-audit --no-fund
+          node scripts/compress-uploads.mjs ${{ steps.find.outputs.big }}
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "压完没有任何变化，跳过。"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "自动压缩新上传的图片"
+          git push
