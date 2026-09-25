@@ -63,14 +63,21 @@ const recentPosts = posts
                若后台传了「首页顶部背景大图」，等待期间显示的就是那张图，而不是空白。 */
             <>
               {heroPoster && (
-                <img
-                  src={heroPoster}
-                  alt=""
-                  class="h-full w-full object-cover"
-                  loading="eager"
-                  fetchpriority="high"
-                  decoding="async"
-                />
+                <>
+                  {/* 封面图按和「纯图片背景」完全一样的方式处理：
+                      压暗让白字看得清，轻微虚化让图上的图案退到后面去。
+                      放大一点点是为了盖住虚化后边缘露出的毛边 */}
+                  <img
+                    src={heroPoster}
+                    alt=""
+                    class="h-full w-full scale-[1.03] object-cover blur-[3px]"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                  />
+                  <div class="absolute inset-0 bg-slate-950/60" />
+                  <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-slate-950/20 to-transparent" />
+                </>
               )}
               <video
                 class="absolute inset-0 h-full w-full object-cover"
