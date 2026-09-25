@@ -8,9 +8,11 @@ const posts = await getCollection('blog');
 const settingsList = await getCollection('settings');
 const site = settingsList[0]?.data;
 
-// 首屏是否使用自定义背景大图（在后台「站点设置」里上传）
+// 首屏背景：大图或视频（都在后台「站点设置」里上传）
 const heroImage = site?.heroImage || '';
-const hasHero = heroImage !== '';
+const heroVideo = site?.heroVideo || '';
+// 传了视频就优先用视频，图片退居为「视频加载出来之前先显示的封面」
+const hasHero = heroImage !== '' || heroVideo !== '';
 
 // 首屏大标题：拆成单个字，好让它们一个一个浮出来
 const heroGreeting = 'Hi, 我是 ';
@@ -47,14 +49,30 @@ const recentPosts = posts
     {
       hasHero && (
         <div class="absolute inset-0" aria-hidden="true">
-          {/* 极缓慢地放大又缩回，像在呼吸；同时放大一点点盖住虚化后的毛边 */}
-          <img
-            src={heroImage}
-            alt=""
-            class="fx-kenburns h-full w-full object-cover blur-[3px]"
-            loading="eager"
-            fetchpriority="high"
-          />
+          {heroVideo ? (
+            /* 背景视频：静音、循环、自动播放。
+               视频本身就在动，所以不再叠加缩放动画 */
+            <video
+              class="h-full w-full object-cover blur-[3px]"
+              src={heroVideo}
+              poster={heroImage || undefined}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              data-hero-video
+            ></video>
+          ) : (
+            /* 背景图：极缓慢地放大又缩回，像在呼吸；放大是为了盖住虚化后的毛边 */
+            <img
+              src={heroImage}
+              alt=""
+              class="fx-kenburns h-full w-full object-cover blur-[3px]"
+              loading="eager"
+              fetchpriority="high"
+            />
+          )}
           {/* 整体压暗，保证文字清晰 */}
           <div class="absolute inset-0 bg-slate-950/60" />
           {/* 左侧再加深一点，文字正好压在这一侧 */}
