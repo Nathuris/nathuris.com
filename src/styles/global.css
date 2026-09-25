@@ -293,9 +293,12 @@
    这样就不会出现「先冒出一帧静止画面、过一会儿才动」的观感。
    加 js-hero 前缀是防脚本没执行时视频被永久藏住；
    访客系统若开了「减少动态效果」，下面的媒体查询会直接把它亮出来。 */
+/* 时长和曲线都是为了让「浮现」这件事真的看得见：
+   站点其他地方用的 --ease-out 是「开头猛冲」型，2.4 秒里前 0.8 秒就走完 86%，
+   放这么长的时长等于白搭。这里换成均匀的曲线，整段时长都在变化。 */
 .js-hero video[data-hero-fade] {
   opacity: 0;
-  transition: opacity 1.4s var(--ease-out);
+  transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .js-hero video[data-hero-fade].is-playing {
