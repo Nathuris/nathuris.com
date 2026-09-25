@@ -101,13 +101,16 @@ jobs:
           fi
           echo "need=$NEED" >> "$GITHUB_OUTPUT"
 
-      - name: 截取视频第一帧做封面图
+      - name: 截取视频的一帧做封面图
         if: steps.findvid.outputs.need != ''
         run: |
           for f in ${{ steps.findvid.outputs.need }}; do
             OUT="${f%.*}-poster.jpg"
-            echo "生成封面图：$f → $OUT"
-            ffmpeg -y -v error -i "$f" -frames:v 1 -q:v 3 "$OUT" || echo "这张没截成，跳过：$f"
+            # 不取第 0 帧（有时恰好是不好看的一瞬间），取大约四分之一处的画面
+            DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f" 2>/dev/null || echo 0)
+            SEEK=$(awk -v d="$DUR" 'BEGIN { printf "%.2f", (d > 0 ? d / 4 : 0) }')
+            echo "生成封面图：$f（取第 ${SEEK} 秒的画面）→ $OUT"
+            ffmpeg -y -v error -ss "$SEEK" -i "$f" -frames:v 1 -q:v 2 "$OUT" || echo "这张没截成，跳过：$f"
           done
 
       - name: 压缩大图
