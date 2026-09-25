@@ -3,7 +3,7 @@ title: Mezzanotte(15th Remake)
 category: 原创音乐
 order: 17
 date: 2023-10-29
-coverImage: /uploads/1.png
+coverImage: /uploads/1.jpg
 description: 'Type: WoS Celebration/纪念曲'
 linkUrl: https://music.163.com/song?id=2094931987&uct2=U2FsdGVkX1+CdFhnw+zju1DOtbUd+2ju8iunOIZt4zU=
 tags:

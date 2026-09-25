@@ -264,23 +264,27 @@
 /* ---------- 滚动到哪、哪里才浮现 ---------- */
 /* 只在 html 带 js-reveal 时才隐藏元素：
    万一浏览器没执行脚本，内容照常显示，不会变成一片空白。
-   注意这里用 translate / scale 这两个独立属性，而不是 transform：
-   卡片悬停上浮用的是 transform，两套动作就互不干扰了 */
+   注意这里用 translate 而不是 transform：
+   卡片悬停上浮用的是 transform，两套动作就互不干扰了。
+   刻意不加 scale（缩放）：卡片里装的是大图，缩放会让浏览器每一帧
+   重新渲染图片，既卡顿、看起来又像在抖。只做「位移 + 淡入」最稳。 */
 .js-reveal .reveal {
   opacity: 0;
   translate: 0 26px;
-  scale: 0.985;
   transition:
     opacity var(--t-reveal) var(--ease-out),
-    translate var(--t-reveal) var(--ease-out),
-    scale var(--t-reveal) var(--ease-out);
+    translate var(--t-reveal) var(--ease-out);
   transition-delay: var(--d, 0s);
 }
 
 .js-reveal .reveal.is-visible {
   opacity: 1;
   translate: none;
-  scale: none;
+}
+
+/* 「立刻显示、不播动画」期间临时挂上，让状态一步到位 */
+.no-reveal-anim .reveal {
+  transition: none !important;
 }
 
 /* ---------- 尊重系统的「减少动态效果」设置 ---------- */

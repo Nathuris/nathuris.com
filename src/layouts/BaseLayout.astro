@@ -90,6 +90,21 @@ const fullTitle = `${title} | Nathuris`;
       }
 
       function setup() {
+        // 打开/切换页面时就已经在屏幕里的内容，直接显示、不播浮现动画。
+        // 否则切换页面时会先看到一片空白（内容还藏着），再慢慢浮现出来。
+        // 浮现动画只留给「滚动之后才进入视野」的内容。
+        const pending = Array.from(document.querySelectorAll('.reveal:not(.is-visible)'));
+        const inView = pending.filter((el) => el.getBoundingClientRect().top < window.innerHeight);
+        if (inView.length > 0) {
+          document.documentElement.classList.add('no-reveal-anim');
+          inView.forEach((el) => el.classList.add('is-visible'));
+          // 强制浏览器先按「已显示」的状态排版一次，再恢复动画
+          void document.documentElement.offsetHeight;
+          requestAnimationFrame(() => {
+            document.documentElement.classList.remove('no-reveal-anim');
+          });
+        }
+
         initReveal();
         initHeroVideo();
       }
