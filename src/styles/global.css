@@ -24,6 +24,17 @@
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
+/* ============================================================
+   动效的统一参数
+   --ease-out：减速曲线，动作「起步快、收尾慢」，看着更从容
+   ============================================================ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-reveal: 0.8s;
+  --t-hero: 0.75s;
+  --t-hover: 0.28s;
+}
+
 /* ========== 基础样式 ========== */
 @layer base {
   html {
@@ -60,35 +71,232 @@
 
 /* ========== 组件样式 ========== */
 @layer components {
-  /* 按钮：圆角收小，去掉位移式动画，只保留颜色过渡 */
+  /* ---------- 按钮 ---------- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-colors duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium;
+    transition:
+      transform var(--t-hover) var(--ease-out),
+      background-color var(--t-hover),
+      border-color var(--t-hover),
+      color var(--t-hover),
+      background-size 0.42s var(--ease-out);
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
   }
 
   .btn-primary {
     @apply bg-accent-600 text-white hover:bg-accent-700 active:bg-accent-800;
   }
 
+  /* 次按钮：鼠标移上去时，一层淡色从左往右「刷」过去 */
   .btn-outline {
-    @apply border border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800;
+    @apply border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300;
+    background-image: linear-gradient(to right, #f1f5f9, #f1f5f9);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
   }
 
+  .btn-outline:hover {
+    @apply border-slate-400 dark:border-slate-600;
+    background-size: 100% 100%;
+  }
+
+  .dark .btn-outline {
+    background-image: linear-gradient(to right, #1e293b, #1e293b);
+  }
+
+  /* 压在背景大图上的次按钮：同样的刷色，但用半透明白 */
+  .btn-outline-light {
+    border: 1px solid rgb(255 255 255 / 0.4);
+    color: #fff;
+    background-image: linear-gradient(to right, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.16));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+  }
+
+  .btn-outline-light:hover {
+    border-color: rgb(255 255 255 / 0.85);
+    color: #fff;
+    background-size: 100% 100%;
+  }
+
+  /* ---------- 标题 / 卡片 / 标签 ---------- */
   .section-title {
     @apply text-3xl font-bold tracking-tight sm:text-4xl;
   }
 
-  /* 卡片：去掉投影，改成一根细线描边；悬停时只让边线深一点 */
+  /* 卡片：细线描边；鼠标移上去轻轻浮起 */
   .card {
-    @apply rounded-lg border border-slate-200 bg-white p-6 transition-colors duration-300 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700;
+    @apply rounded-lg border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900;
+    transition:
+      transform var(--t-hover) var(--ease-out),
+      border-color var(--t-hover),
+      box-shadow var(--t-hover);
   }
 
-  /* 标签：从圆滚滚的胶囊改成克制的方角小标签（底色不变） */
+  .card:hover {
+    @apply border-slate-300 dark:border-slate-700;
+    transform: translateY(-3px);
+  }
+
   .tag {
     @apply inline-block rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400;
   }
 
-  /* 容器：左右留白加大 */
   .container-main {
     @apply mx-auto max-w-5xl px-5 sm:px-8 lg:px-10;
+  }
+
+  /* ---------- 导航链接：悬停时一条细线从中间滑开 ---------- */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.3rem;
+    height: 1px;
+    width: 0;
+    background-color: currentColor;
+    transform: translateX(-50%);
+    transition: width 0.32s var(--ease-out);
+  }
+
+  .nav-link:hover::after {
+    width: 45%;
+  }
+}
+
+/* ============================================================
+   动效
+   ============================================================ */
+
+/* ---------- 关键帧 ---------- */
+@keyframes fx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fx-char {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 背景大图的极缓慢「呼吸」：28 秒一个来回，基本察觉不到在动 */
+@keyframes fx-kenburns {
+  0% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.13) translate3d(-1.2%, -0.8%, 0);
+  }
+  100% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+}
+
+/* ---------- 打开页面时，元素依次浮上来 ---------- */
+/* 用法：给元素加 fx-rise，再用 style="--d:0.2s" 控制它第几个出场 */
+.fx-rise {
+  animation: fx-rise var(--t-hero) var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* 大标题：一个字一个字浮出来 */
+.fx-char {
+  display: inline-block;
+  animation: fx-char 0.6s var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* 背景大图 */
+.fx-kenburns {
+  animation: fx-kenburns 28s ease-in-out infinite;
+}
+
+/* ---------- 滚动到哪、哪里才浮现 ---------- */
+/* 只在 html 带 js-reveal 时才隐藏元素：
+   万一浏览器没执行脚本，内容照常显示，不会变成一片空白。
+   注意这里用 translate / scale 这两个独立属性，而不是 transform：
+   卡片悬停上浮用的是 transform，两套动作就互不干扰了 */
+.js-reveal .reveal {
+  opacity: 0;
+  translate: 0 26px;
+  scale: 0.985;
+  transition:
+    opacity var(--t-reveal) var(--ease-out),
+    translate var(--t-reveal) var(--ease-out),
+    scale var(--t-reveal) var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  translate: none;
+  scale: none;
+}
+
+/* ---------- 尊重系统的「减少动态效果」设置 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fx-rise,
+  .fx-char {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .fx-kenburns {
+    animation: none !important;
+    /* 保留一点点放大，免得虚化边缘露出白边 */
+    transform: scale(1.06) !important;
+  }
+
+  .js-reveal .reveal {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: none !important;
+    transition: none !important;
+  }
+
+  .btn,
+  .card,
+  .nav-link::after {
+    transition: none !important;
+  }
+
+  .btn:hover,
+  .card:hover {
+    transform: none !important;
+  }
+
+  .btn-outline,
+  .btn-outline-light {
+    background-size: 100% 100% !important;
   }
 }

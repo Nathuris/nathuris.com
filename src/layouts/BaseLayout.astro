@@ -31,6 +31,10 @@ const fullTitle = `${title} | Nathuris`;
         if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         }
+        // 打了个标记：说明浏览器能执行脚本。
+        // 「滚动浮现」的初始隐藏状态只在这条标记存在时才生效，
+        // 万一脚本没跑起来，内容照常完整显示，不会变成空白。
+        document.documentElement.classList.add('js-reveal');
       })();
     </script>
     <Header />
@@ -38,5 +42,24 @@ const fullTitle = `${title} | Nathuris`;
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // 滚动到哪，哪一块才浮现
+      const revealEls = document.querySelectorAll('.reveal');
+      if (revealEls.length > 0) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target); // 出现一次就够了，不重复播放
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.06 }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>

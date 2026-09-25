@@ -12,6 +12,17 @@ const site = settingsList[0]?.data;
 const heroImage = site?.heroImage || '';
 const hasHero = heroImage !== '';
 
+// 首屏大标题：拆成单个字，好让它们一个一个浮出来
+const heroGreeting = 'Hi, 我是 ';
+const heroName = 'Nathuris';
+const heroGreetingChars = [...heroGreeting];
+const heroNameChars = [...heroName];
+// 给读屏软件用的完整标题（拆成单字后，视觉上是逐字动画）
+const heroTitle = `${heroGreeting}${heroName}`;
+const heroNameClass = hasHero ? 'text-accent-300' : 'text-accent-600 dark:text-accent-400';
+// 每个字的出场时间：一个比一个晚一点点
+const charDelay = (i: number) => `${(0.06 + i * 0.028).toFixed(3)}s`;
+
 // 精选推荐：选最新的 4 首音乐 + 4 个项目
 const sortByOrderAndDate = (a: any, b: any) => {
   const orderA = a.data.order ?? 0;
@@ -36,11 +47,11 @@ const recentPosts = posts
     {
       hasHero && (
         <div class="absolute inset-0" aria-hidden="true">
-          {/* scale-105 是为了盖住虚化后边缘露出的毛边 */}
+          {/* 极缓慢地放大又缩回，像在呼吸；同时放大一点点盖住虚化后的毛边 */}
           <img
             src={heroImage}
             alt=""
-            class="h-full w-full scale-105 object-cover blur-[3px]"
+            class="fx-kenburns h-full w-full object-cover blur-[3px]"
             loading="eager"
             fetchpriority="high"
           />
@@ -56,11 +67,12 @@ const recentPosts = posts
       <div class="max-w-3xl">
         <div
           class:list={[
-            'mb-8 h-20 w-20 overflow-hidden rounded-full',
+            'fx-rise mb-8 h-20 w-20 overflow-hidden rounded-full',
             hasHero
               ? 'bg-white/10 ring-2 ring-white/40'
               : 'bg-accent-50 ring-1 ring-accent-200 dark:bg-accent-950 dark:ring-accent-800',
           ]}
+          style="--d:0s"
         >
           {site?.avatar ? (
             <img src={site.avatar} alt="Nathuris" class="h-full w-full object-cover" />
@@ -77,55 +89,52 @@ const recentPosts = posts
         </div>
 
         <h1
+          aria-label={heroTitle}
           class:list={[
             'text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl',
             hasHero && 'text-white',
           ]}
         >
-          Hi, 我是
-          <span class={hasHero ? 'text-accent-300' : 'text-accent-600 dark:text-accent-400'}>
-            Nathuris
+          <span aria-hidden="true">
+            {heroGreetingChars.map((ch, i) => (
+              <span class="fx-char" style={`--d:${charDelay(i)}`}>
+                {ch === ' ' ? ' ' : ch}
+              </span>
+            ))}
+            <span class:list={['whitespace-nowrap', heroNameClass]}>
+              {heroNameChars.map((ch, i) => (
+                <span class="fx-char" style={`--d:${charDelay(heroGreetingChars.length + i)}`}>
+                  {ch}
+                </span>
+              ))}
+            </span>
           </span>
         </h1>
 
         <div
-          class:list={['mt-7 h-px w-16', hasHero ? 'bg-white/50' : 'bg-accent-300 dark:bg-accent-700']}
+          class:list={['fx-rise mt-7 h-px w-16', hasHero ? 'bg-white/50' : 'bg-accent-300 dark:bg-accent-700']}
+          style="--d:0.42s"
           aria-hidden="true"
         />
 
         {site?.bio && (
           <p
             class:list={[
-              'mt-7 max-w-xl text-lg leading-relaxed',
+              'fx-rise mt-7 max-w-xl text-lg leading-relaxed',
               hasHero ? 'text-slate-100' : 'text-slate-600 dark:text-slate-400',
             ]}
+            style="--d:0.52s"
           >
             {site.bio}
           </p>
         )}
 
-        <div class="mt-10 flex flex-wrap items-center gap-3">
+        <div class="fx-rise mt-10 flex flex-wrap items-center gap-3" style="--d:0.62s">
           <a href="/music/" class="btn btn-primary">我的音乐</a>
-          <a
-            href="/projects/"
-            class:list={[
-              'btn',
-              hasHero
-                ? 'border border-white/40 text-white hover:border-white/80 hover:bg-white/10'
-                : 'btn-outline',
-            ]}
-          >
+          <a href="/projects/" class:list={['btn', hasHero ? 'btn-outline-light' : 'btn-outline']}>
             我的项目
           </a>
-          <a
-            href="/contact/"
-            class:list={[
-              'btn',
-              hasHero
-                ? 'border border-white/40 text-white hover:border-white/80 hover:bg-white/10'
-                : 'btn-outline',
-            ]}
-          >
+          <a href="/contact/" class:list={['btn', hasHero ? 'btn-outline-light' : 'btn-outline']}>
             联系我
           </a>
         </div>
@@ -138,7 +147,7 @@ const recentPosts = posts
     featuredMusic.length > 0 && (
       <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
-          <div class="mb-12 flex items-end justify-between gap-6">
+          <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
               <h2 class="section-title">音乐作品</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">原创音乐精选</p>
@@ -148,8 +157,8 @@ const recentPosts = posts
             </a>
           </div>
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredMusic.map((item) => (
-              <article class="card group">
+            {featuredMusic.map((item, i) => (
+              <article class="card group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
                 <a href={`/music/${item.id}/`} class="no-underline">
                   {item.data.coverImage ? (
                     <div class="mb-3 aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
@@ -180,7 +189,7 @@ const recentPosts = posts
     featuredProjects.length > 0 && (
       <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
-          <div class="mb-12 flex items-end justify-between gap-6">
+          <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
               <h2 class="section-title">项目作品</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">Vibe Coding 精选项目</p>
@@ -190,8 +199,8 @@ const recentPosts = posts
             </a>
           </div>
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProjects.map((item) => (
-              <article class="card group">
+            {featuredProjects.map((item, i) => (
+              <article class="card group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
                 <a href={`/projects/${item.id}/`} class="no-underline">
                   {item.data.image ? (
                     <div class="mb-3 aspect-video overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
@@ -222,7 +231,7 @@ const recentPosts = posts
     recentPosts.length > 0 && (
       <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
-          <div class="mb-12 flex items-end justify-between gap-6">
+          <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
               <h2 class="section-title">近期动态</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">最新文章和分享</p>
@@ -232,8 +241,12 @@ const recentPosts = posts
             </a>
           </div>
           <div class="space-y-5">
-            {recentPosts.map((post) => (
-              <a href={`/blog/${post.id}/`} class="card flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between">
+            {recentPosts.map((post, i) => (
+              <a
+                href={`/blog/${post.id}/`}
+                class="card reveal flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between"
+                style={`--d:${(i * 0.09).toFixed(2)}s`}
+              >
                 <div>
                   <h3 class="font-semibold text-slate-900 dark:text-white">{post.data.title}</h3>
                   {post.data.description && (
