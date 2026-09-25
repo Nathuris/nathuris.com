@@ -54,6 +54,7 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags || []))].sort();
                   sourceUrl={item.data.sourceUrl}
                   slug={item.id}
                   delay={(i % 4) * 0.09}
+                  eager={i < 4}
                 />
               </div>
             ))}

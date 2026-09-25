@@ -15,11 +15,13 @@ const fullTitle = `${title} | Nathuris`;
 
 <!doctype html>
 <!--
-  class="dark" 直接写在 HTML 上（不靠脚本判断）：
-  这样第一帧渲染出来就是深色，切页面时不会闪一下白的。
-  在顶栏切换页面时，用 Astro 自带的过渡做淡入淡出。
+  class 直接写在 HTML 上，不靠脚本判断：
+  - dark：第一帧渲染出来就是深色，切页面不会闪一下白的
+  - js-reveal：标记「待浮现的元素先藏起来」。这一条必须写死在这里，
+    因为切换页面时 Astro 会把新页面的 html 属性换进来——如果靠脚本临时添加，
+    换页那一瞬间标记不存在，卡片会先全部显示、再集体消失，也就是「闪一下」。
 -->
-<html lang="zh-CN" class="dark" transition:animate="fade">
+<html lang="zh-CN" class="dark js-reveal" transition:animate="fade">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,14 +33,18 @@ const fullTitle = `${title} | Nathuris`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <ClientRouter />
+    <noscript>
+      {/* 浏览器不执行脚本时，把「待浮现」的隐藏状态取消，保证内容完整可见 */}
+      <style>
+        .js-reveal .reveal {
+          opacity: 1 !important;
+          translate: none !important;
+          scale: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body class="min-h-screen flex flex-col">
-    <script is:inline>
-      // 打了个标记：说明浏览器能执行脚本。
-      // 「滚动浮现」的初始隐藏状态只在这条标记存在时才生效，
-      // 万一脚本没跑起来，内容照常完整显示，不会变成空白。
-      document.documentElement.classList.add('js-reveal');
-    </script>
     <Header />
     <main class="flex-1">
       <slot />
@@ -84,8 +90,6 @@ const fullTitle = `${title} | Nathuris`;
       }
 
       function setup() {
-        // 切换页面时 html 上的 class 可能被重置，这里补一次
-        document.documentElement.classList.add('js-reveal');
         initReveal();
         initHeroVideo();
       }

@@ -8,16 +8,34 @@ export interface Props {
   slug: string;
   /** 滚动浮现时的出场延迟（秒），用来让一排卡片依次出现 */
   delay?: number;
+  /** 首屏可见的那几张要立刻下载，不要等滚动。其余保持懒加载省流量 */
+  eager?: boolean;
 }
 
-const { title, description, image, tags, sourceUrl, slug, delay = 0 } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  tags,
+  sourceUrl,
+  slug,
+  delay = 0,
+  eager = false,
+} = Astro.props;
 ---
 
 <article class="card group reveal" style={delay ? `--d:${delay}s` : undefined}>
   <a href={`/projects/${slug}/`} class="no-underline">
     {image ? (
       <div class="mb-5 aspect-video overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
-        <img src={image} alt={title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+        <img
+          src={image}
+          alt={title}
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : undefined}
+          decoding="async"
+        />
       </div>
     ) : (
       <div class="mb-5 flex aspect-video items-center justify-center rounded-md bg-slate-100 dark:bg-slate-800">
