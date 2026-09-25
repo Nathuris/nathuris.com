@@ -89,6 +89,40 @@ const fullTitle = `${title} | Nathuris`;
         }
       }
 
+      // Cloudflare 会把页面里的邮箱编码成一段乱码，再靠它自己的脚本在
+      // 「页面首次加载」时还原成真实地址。而我们切换页面是不重新加载整页的，
+      // 那个脚本不会重跑，邮箱就会一直显示成 [email protected] 这种占位符。
+      // 这里自己解一次码。
+      function cfDecodeEmail(hex) {
+        if (!hex || hex.length < 4) return '';
+        const key = parseInt(hex.slice(0, 2), 16);
+        if (Number.isNaN(key)) return '';
+        let out = '';
+        for (let i = 2; i < hex.length; i += 2) {
+          out += String.fromCharCode(parseInt(hex.slice(i, i + 2), 16) ^ key);
+        }
+        return out;
+      }
+
+      function decodeProtectedEmails() {
+        document.querySelectorAll('[data-cfemail]').forEach((el) => {
+          const email = cfDecodeEmail(el.getAttribute('data-cfemail') || '');
+          if (!email) return;
+          el.textContent = email;
+          const link = el.closest('a');
+          if (link) link.setAttribute('href', 'mailto:' + email);
+        });
+
+        // 万一某个链接没有那个标记，就直接从链接地址本身解
+        document.querySelectorAll('a[href^="/cdn-cgi/l/email-protection#"]').forEach((link) => {
+          if (link.querySelector('[data-cfemail]')) return;
+          const email = cfDecodeEmail((link.getAttribute('href') || '').split('#')[1] || '');
+          if (!email) return;
+          link.setAttribute('href', 'mailto:' + email);
+          link.textContent = email;
+        });
+      }
+
       function setup() {
         // 打开/切换页面时就已经在屏幕里的内容，直接显示、不播浮现动画。
         // 否则切换页面时会先看到一片空白（内容还藏着），再慢慢浮现出来。
@@ -107,6 +141,7 @@ const fullTitle = `${title} | Nathuris`;
 
         initReveal();
         initHeroVideo();
+        decodeProtectedEmails();
       }
 
       // 直接跑一次（首屏），并在每次切换页面后再跑一次
