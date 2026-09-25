@@ -31,6 +31,7 @@ collections:
     fields:
       - { label: 头像, name: avatar, widget: image, required: false, hint: 显示在首页顶部，正方形图片效果最好 }
       - { label: 首页顶部背景大图, name: heroImage, widget: image, required: false, hint: 上传一张横向大图（建议宽度 1600 以上）。系统会自动把它压暗，上面的文字仍然看得清。不传就保持现在的干净样式 }
+      - { label: 首页顶部背景视频, name: heroVideo, widget: file, required: false, hint: 可选。传了视频就用视频当背景（图片会自动变成视频加载前的封面）。必须是 MP4 格式，建议 10 秒以内、5MB 以内——文件太大会让访客打开变慢，而且超过 25MB 无法上传成功 }
       - { label: 联系邮箱, name: email, widget: string, required: false, hint: 显示在联系页和网站底部 }
       - { label: GitHub 链接, name: github, widget: string, required: false, hint: 你的 GitHub 主页链接 }
       - { label: 网易云音乐链接, name: neteaseMusic, widget: string, required: false, hint: 网易云音乐主页链接 }

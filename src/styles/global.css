@@ -39,6 +39,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* 站点只有深色一种版本。这句让浏览器的滚动条、表单控件
+       以及页面之外的底色也跟着变深，不会露出一圈白边 */
+    color-scheme: dark;
   }
 
   body {
@@ -215,6 +218,28 @@
   100% {
     transform: scale(1.06) translate3d(0, 0, 0);
   }
+}
+
+/* ---------- 切换页面时，旧页面淡出、新页面淡入 ---------- */
+/* 这是浏览器原生的「视图过渡」机制，配合 BaseLayout 里的 ClientRouter 使用 */
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: page-fade-out 0.22s ease both;
+}
+
+::view-transition-new(root) {
+  animation: page-fade-in 0.34s var(--ease-out) both;
 }
 
 /* ---------- 打开页面时，元素依次浮上来 ---------- */
