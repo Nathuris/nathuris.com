@@ -30,9 +30,27 @@ const fullTitle = `${title} | Nathuris`;
     <meta name="theme-color" content="#020617" />
     <title>{fullTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {/* 字体样式表：故意做成「不阻塞」。
+        外部样式表直接写在 head 里会让浏览器停下来等它下载完，才继续往下读页面。
+        而它是从 Google 的服务器取的，大陆访问经常连不上——连不上就得干等到超时。
+        这几秒里浏览器根本还没读到底部的视频，视频的下载也没开始，
+        表现就是「页面打开了，视频却半天不动」。
+        用 media="print" 让浏览器认为当前用不上它、不阻塞页面，
+        等它真的下回来了再由 onload 切回 all。 */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
     <ClientRouter />
     <noscript>
       {/* 浏览器不执行脚本时，把「待浮现」的隐藏状态取消，保证内容完整可见 */}
