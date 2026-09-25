@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -13,6 +14,12 @@ const heroImage = site?.heroImage || '';
 const heroVideo = site?.heroVideo || '';
 // 传了视频就优先用视频，图片退居为「视频加载出来之前先显示的封面」
 const hasHero = heroImage !== '' || heroVideo !== '';
+
+// 视频的封面图：后台填了背景大图就优先用它；没填就找视频旁边的同名封面图
+// （/uploads/1.mp4 对应 /uploads/1-poster.jpg，新上传的视频会自动生成这张图）。
+// 构建时确认这张图真的存在，不存在就干脆不输出，免得白白多一次 404。
+const autoPoster = heroVideo.startsWith('/') ? heroVideo.replace(/\.[^./]+$/, '-poster.jpg') : '';
+const heroPoster = heroImage || (autoPoster && existsSync(`public${autoPoster}`) ? autoPoster : '');
 
 // 首屏大标题：拆成单个字，好让它们一个一个浮出来
 const heroGreeting = 'Hi, 我是 ';
@@ -52,18 +59,31 @@ const recentPosts = posts
           {heroVideo ? (
             /* 背景视频：静音、循环、自动播放。
                视频在上传前已经自己处理过明暗和画质，这里原样铺满，
-               不再叠加压暗、模糊或缩放 */
-            <video
-              class="h-full w-full object-cover"
-              src={heroVideo}
-              poster={heroImage || undefined}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              data-hero-video
-            ></video>
+               不再叠加压暗、模糊或缩放。
+               下面那张封面图（就是视频的第一帧）负责「撑场」：页面一打开先看见它，
+               视频藏在它后面，等真的开始播放了才淡入（见 global.css 与 BaseLayout） */
+            <>
+              {heroPoster && (
+                <img
+                  src={heroPoster}
+                  alt=""
+                  class="h-full w-full object-cover"
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              )}
+              <video
+                class="absolute inset-0 h-full w-full object-cover"
+                src={heroVideo}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+                data-hero-video
+              ></video>
+            </>
           ) : (
             /* 背景图：压暗 + 轻微模糊 + 极缓慢的缩放「呼吸」
                （放大一点是为了盖住模糊后边缘露出的毛边） */

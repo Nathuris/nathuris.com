@@ -1,6 +1,8 @@
-# 新上传的图片只要超过 500KB，就自动压好并提交。
-# 你不需要做任何事——在后台正常上传，过一两分钟网站上的图就自动变轻了。
-name: 自动压缩上传的图片
+# 新上传的媒体文件自动处理，你不需要做任何事：
+#   - 图片超过 500KB → 自动压小
+#   - 视频 → 自动截取第一帧当封面图（页面打开时先显示它，视频播起来再淡入）
+# 在后台正常上传，过一两分钟网站上的文件就自动处理好了。
+name: 自动处理上传的媒体文件
 
 on:
   push:
@@ -12,13 +14,13 @@ on:
 permissions:
   contents: write
 
-# 连续上传多张图时排队处理，避免两个机器人同时改同一批文件
+# 连续上传多个文件时排队处理，避免两个机器人同时改同一批文件
 concurrency:
   group: compress-uploads
   cancel-in-progress: false
 
 jobs:
-  compress:
+  process:
     # 不理会机器人自己产生的提交，避免来回循环
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
@@ -64,20 +66,67 @@ jobs:
           fi
           echo "big=$BIG" >> "$GITHUB_OUTPUT"
 
-      - name: 压缩并提交
+      - name: 找出这次上传的视频
+        id: findvid
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            CANDIDATES=$(find public/uploads -type f \( -iname '*.mp4' -o -iname '*.mov' -o -iname '*.webm' \))
+          else
+            BEFORE="${{ github.event.before }}"
+            if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+              RANGE="HEAD~1 HEAD"
+            else
+              RANGE="$BEFORE HEAD"
+            fi
+            CANDIDATES=$(git diff --name-only --diff-filter=AM "$RANGE" -- 'public/uploads/')
+          fi
+
+          NEED=""
+          for f in $CANDIDATES; do
+            [ -f "$f" ] || continue
+            case "$(echo "$f" | tr 'A-Z' 'a-z')" in
+              *.mp4|*.mov|*.webm) ;;
+              *) continue ;;
+            esac
+            # 已经有封面图就不重做，免得覆盖掉你手动挑过的那张
+            if [ -f "${f%.*}-poster.jpg" ]; then
+              echo "已有封面图，跳过：$f"
+              continue
+            fi
+            NEED="$NEED $f"
+          done
+
+          if [ -z "$NEED" ]; then
+            echo "没有需要配封面图的视频。"
+          fi
+          echo "need=$NEED" >> "$GITHUB_OUTPUT"
+
+      - name: 截取视频第一帧做封面图
+        if: steps.findvid.outputs.need != ''
+        run: |
+          for f in ${{ steps.findvid.outputs.need }}; do
+            OUT="${f%.*}-poster.jpg"
+            echo "生成封面图：$f → $OUT"
+            ffmpeg -y -v error -i "$f" -frames:v 1 -q:v 3 "$OUT" || echo "这张没截成，跳过：$f"
+          done
+
+      - name: 压缩大图
         if: steps.find.outputs.big != ''
         run: |
           set -e
           npm install sharp --no-save --no-audit --no-fund
           node scripts/compress-uploads.mjs ${{ steps.find.outputs.big }}
 
+      # 封面图和压缩图都做完之后，统一提交一次
+      - name: 提交改动
+        run: |
           if git diff --quiet && git diff --cached --quiet; then
-            echo "压完没有任何变化，跳过。"
+            echo "没有任何变化，跳过。"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "自动压缩新上传的图片"
+          git commit -m "自动处理新上传的媒体文件"
           git push
