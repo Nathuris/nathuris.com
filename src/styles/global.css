@@ -288,14 +288,16 @@
 }
 
 /* ---------- 首屏视频：等它真的动起来，再淡入 ---------- */
-/* 视频先藏在封面图（视频第一帧）后面，避免「先空白 → 冒出一帧静止画面 → 才开始动」。
-   只在 html 带 js-hero 时才藏：脚本没执行的话照常显示，否则会是一片黑。 */
-.js-hero video[data-hero-video] {
+/* 只在「后台传了封面图」时才隐藏视频（data-hero-fade），
+   避免「先空白 → 冒出一帧静止画面 → 才开始动」。
+   没有封面图时不隐藏——否则视频出来之前会是一块空白。
+   加 js-hero 前缀是防脚本没执行时视频被永久藏住。 */
+.js-hero video[data-hero-fade] {
   opacity: 0;
   transition: opacity 0.6s var(--ease-out);
 }
 
-.js-hero video[data-hero-video].is-playing {
+.js-hero video[data-hero-fade].is-playing {
   opacity: 1;
 }
 
@@ -325,8 +327,8 @@
     transition: none !important;
   }
 
-  /* 视频不播了，那就直接把第一帧亮出来，不能留下空白 */
-  .js-hero video[data-hero-video] {
+  /* 视频不播了，那就直接把它亮出来，不能留下空白 */
+  .js-hero video[data-hero-fade] {
     opacity: 1 !important;
     transition: none !important;
   }

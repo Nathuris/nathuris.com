@@ -1,5 +1,4 @@
 ---
-import { existsSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -15,11 +14,10 @@ const heroVideo = site?.heroVideo || '';
 // 传了视频就优先用视频，图片退居为「视频加载出来之前先显示的封面」
 const hasHero = heroImage !== '' || heroVideo !== '';
 
-// 视频的封面图：后台填了背景大图就优先用它；没填就找视频旁边的同名封面图
-// （/uploads/1.mp4 对应 /uploads/1-poster.jpg，新上传的视频会自动生成这张图）。
-// 构建时确认这张图真的存在，不存在就干脆不输出，免得白白多一次 404。
-const autoPoster = heroVideo.startsWith('/') ? heroVideo.replace(/\.[^./]+$/, '-poster.jpg') : '';
-const heroPoster = heroImage || (autoPoster && existsSync(`public${autoPoster}`) ? autoPoster : '');
+// 视频的封面图：就是后台「首页顶部背景大图」里传的那张。
+// 传了视频时，这张图不当背景图用（背景是视频），而是当封面——
+// 视频还没加载出来之前，先让访客看到它。没传就留空，什么也不显示。
+const heroPoster = heroVideo !== '' ? heroImage : '';
 
 // 首屏大标题：拆成单个字，好让它们一个一个浮出来
 const heroGreeting = 'Hi, 我是 ';
@@ -60,8 +58,9 @@ const recentPosts = posts
             /* 背景视频：静音、循环、自动播放。
                视频在上传前已经自己处理过明暗和画质，这里原样铺满，
                不再叠加压暗、模糊或缩放。
-               下面那张封面图（就是视频的第一帧）负责「撑场」：页面一打开先看见它，
-               视频藏在它后面，等真的开始播放了才淡入（见 global.css 与 BaseLayout） */
+               若后台传了「首页顶部背景大图」，它就当封面用：页面一打开先看见它，
+               视频藏在它后面，等真的开始播放了才淡入（见 global.css 与 BaseLayout）。
+               没传封面时不做这个隐藏——否则视频出来之前会是一块空白。 */
             <>
               {heroPoster && (
                 <img
@@ -82,6 +81,7 @@ const recentPosts = posts
                 playsinline
                 preload="auto"
                 data-hero-video
+                data-hero-fade={heroPoster ? true : undefined}
               ></video>
             </>
           ) : (

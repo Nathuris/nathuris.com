@@ -1,8 +1,6 @@
-# 新上传的媒体文件自动处理，你不需要做任何事：
-#   - 图片超过 500KB → 自动压小
-#   - 视频 → 自动截取第一帧当封面图（页面打开时先显示它，视频播起来再淡入）
-# 在后台正常上传，过一两分钟网站上的文件就自动处理好了。
-name: 自动处理上传的媒体文件
+# 新上传的图片只要超过 500KB，就自动压好并提交。
+# 你不需要做任何事——在后台正常上传，过一两分钟网站上的图就自动变轻了。
+name: 自动压缩上传的图片
 
 on:
   push:
@@ -65,53 +63,6 @@ jobs:
             echo "没有超过 500KB 的图片，不需要处理。"
           fi
           echo "big=$BIG" >> "$GITHUB_OUTPUT"
-
-      - name: 找出这次上传的视频
-        id: findvid
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            CANDIDATES=$(find public/uploads -type f \( -iname '*.mp4' -o -iname '*.mov' -o -iname '*.webm' \))
-          else
-            BEFORE="${{ github.event.before }}"
-            if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-              RANGE="HEAD~1 HEAD"
-            else
-              RANGE="$BEFORE HEAD"
-            fi
-            CANDIDATES=$(git diff --name-only --diff-filter=AM "$RANGE" -- 'public/uploads/')
-          fi
-
-          NEED=""
-          for f in $CANDIDATES; do
-            [ -f "$f" ] || continue
-            case "$(echo "$f" | tr 'A-Z' 'a-z')" in
-              *.mp4|*.mov|*.webm) ;;
-              *) continue ;;
-            esac
-            # 已经有封面图就不重做，免得覆盖掉你手动挑过的那张
-            if [ -f "${f%.*}-poster.jpg" ]; then
-              echo "已有封面图，跳过：$f"
-              continue
-            fi
-            NEED="$NEED $f"
-          done
-
-          if [ -z "$NEED" ]; then
-            echo "没有需要配封面图的视频。"
-          fi
-          echo "need=$NEED" >> "$GITHUB_OUTPUT"
-
-      - name: 截取视频的一帧做封面图
-        if: steps.findvid.outputs.need != ''
-        run: |
-          for f in ${{ steps.findvid.outputs.need }}; do
-            OUT="${f%.*}-poster.jpg"
-            # 不取第 0 帧（有时恰好是不好看的一瞬间），取大约四分之一处的画面
-            DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f" 2>/dev/null || echo 0)
-            SEEK=$(awk -v d="$DUR" 'BEGIN { printf "%.2f", (d > 0 ? d / 4 : 0) }')
-            echo "生成封面图：$f（取第 ${SEEK} 秒的画面）→ $OUT"
-            ffmpeg -y -v error -ss "$SEEK" -i "$f" -frames:v 1 -q:v 2 "$OUT" || echo "这张没截成，跳过：$f"
-          done
 
       - name: 压缩大图
         if: steps.find.outputs.big != ''
