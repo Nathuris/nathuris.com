@@ -5,12 +5,24 @@ const settings = await getCollection('settings');
 const site = settings[0]?.data;
 ---
 
-<footer class="border-t border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/50">
+<footer class="site-footer border-t border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/50">
   <div class="container-main">
     <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
       <div>
-        <p class="text-sm font-medium text-slate-900 dark:text-white">Nathuris</p>
+        <p class="footer-wordmark text-sm font-medium text-slate-900 dark:text-white">Nathuris<span aria-hidden="true">.</span></p>
         <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{site?.bio || '音乐人 & 开发者'}</p>
+      </div>
+
+      <div class="footer-studio">
+        <img
+          class="studio-logo studio-logo-horizontal"
+          src="/brand/studio-sonexis-horizontal-display.svg"
+          alt="Studio Sonexis 工作室"
+          width="1116"
+          height="296"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
 
       <div class="flex items-center gap-6">
@@ -27,7 +39,7 @@ const site = settings[0]?.data;
       </div>
     </div>
 
-    <div class="mt-10 border-t border-slate-200 pt-8 text-center text-xs text-slate-400 dark:border-slate-800">
+    <div class="footer-bottom mt-10 border-t border-slate-200 pt-8 text-center text-xs text-slate-400 dark:border-slate-800">
       &copy; {new Date().getFullYear()} Nathuris. All rights reserved.
     </div>
   </div>

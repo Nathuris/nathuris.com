@@ -12,7 +12,7 @@
   --color-accent-300: #7ecce1;
   --color-accent-400: #53bbd7;
   --color-accent-500: #36abc8;
-  --color-accent-600: #2c9bb9;
+  --color-accent-600: #2B9AB8;
   --color-accent-700: #24809a;
   --color-accent-800: #1c667b;
   --color-accent-900: #144c5c;
@@ -29,6 +29,10 @@
    --ease-out：减速曲线，动作「起步快、收尾慢」，看着更从容
    ============================================================ */
 :root {
+  --brand: #2B9AB8;
+  --surface: #0b1014;
+  --surface-raised: #11191f;
+  --line: rgb(255 255 255 / 0.09);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --t-reveal: 0.8s;
   --t-hero: 0.75s;
@@ -51,7 +55,8 @@
   }
 
   .dark body {
-    @apply bg-slate-950 text-slate-200;
+    @apply text-slate-200;
+    background-color: var(--surface);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -155,7 +160,7 @@
   }
 
   .container-main {
-    @apply mx-auto max-w-5xl px-5 sm:px-8 lg:px-10;
+    @apply mx-auto max-w-7xl px-5 sm:px-8 lg:px-12;
   }
 
   /* ---------- 导航链接：悬停时一条细线从中间滑开 ---------- */
@@ -352,4 +357,138 @@
   .btn-outline-light {
     background-size: 100% 100% !important;
   }
+}
+
+
+/* ========== 数字展厅：沿用主题蓝，调整空间与视觉层次 ========== */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-accent-400);
+  outline-offset: 5px;
+}
+::selection { background: #2B9AB8; color: white; }
+
+.site-header {
+  background: rgb(11 16 20 / 0.88);
+  border-color: var(--line);
+  backdrop-filter: blur(20px);
+}
+.brand-link { display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.04em; }
+.brand-symbol {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: white;
+  background: var(--brand);
+  border-radius: 12px 12px 12px 3px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.brand-caption { display: block; margin-top: 2px; color: #95a5af; font-size: 9px; font-weight: 400; letter-spacing: 0.24em; }
+.site-header .nav-link { border-radius: 999px; padding-inline: 19px; }
+.site-header a[aria-current="page"] { color: #7ecce1; background: rgb(43 154 184 / 0.12); }
+.mobile-navigation { background: var(--surface); border-color: var(--line); }
+
+.btn { border-radius: 999px; padding: 13px 23px; }
+.dark .btn-primary { background-color: var(--brand); color: white; }
+.dark .btn-primary:hover { background-color: var(--color-accent-700); color: white; }
+.dark .btn-outline { border-color: #35454f; background-image: linear-gradient(to right, #1a2830, #1a2830); }
+.dark .card { background-color: var(--surface-raised); border-color: var(--line); border-radius: 18px; }
+.dark .card:hover { border-color: rgb(43 154 184 / 0.5); box-shadow: 0 16px 36px rgb(0 0 0 / 0.16); }
+.tag { border-radius: 999px; }
+.section-title { font-size: clamp(1.85rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -0.045em; }
+.editorial-label { font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: 0.16em; line-height: 1.8; color: #9cabb5; }
+.section-eyebrow { color: var(--color-accent-400); margin-bottom: 20px; }
+
+.home-hero { min-height: min(850px, 90svh); display: flex; flex-direction: column; justify-content: center; }
+.hero-layout { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 32px; align-items: center; }
+.hero-copy { min-width: 0; }
+.hero-avatar { width: 64px; height: 64px; box-shadow: 0 10px 36px rgb(0 0 0 / 0.18); }
+.hero-title { font-weight: 500; }
+.hero-greeting { display: block; margin-bottom: 14px; font-size: clamp(1.3rem, 2.7vw, 2rem); font-weight: 400; letter-spacing: -0.02em; }
+.hero-name { display: block; font-size: clamp(3.1rem, 8.6vw, 7.3rem); line-height: 1.08; letter-spacing: -0.065em; color: var(--brand); }
+.hero-aside { padding-top: 65px; }
+.hero-aside .editorial-label { display: block; font-size: 9px; color: #c1d2dc; }
+.sound-signature { display: flex; align-items: center; justify-content: space-between; height: 132px; gap: 4px; margin: 30px 0 20px; }
+.sound-signature span { height: var(--bar); flex: 1; border-radius: 4px; background: var(--brand); opacity: 0.75; }
+.hero-aside-caption { color: #c1d2dc; font-size: 11px; letter-spacing: 0.24em; }
+.hero-bottom { position: absolute; bottom: 26px; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.hero-bottom .editorial-label { color: #c1d2dc; font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em; }
+.dark .hero-scroll { display: flex; gap: 24px; align-items: center; color: #e0eaf0; font-size: 11px; }
+.hero-scroll span { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid rgb(255 255 255 / 0.3); border-radius: 50%; }
+.hero-scroll:hover span { border-color: var(--brand); color: var(--color-accent-300); }
+#selected-music { scroll-margin-top: 100px; }
+
+.home-section { border-color: var(--line); padding-block: clamp(64px, 8vw, 112px); }
+.music-gallery { column-gap: 28px; row-gap: 36px; }
+.dark .music-tile { background: transparent; border: 0; border-radius: 0; padding: 0; }
+.dark .music-tile:hover { box-shadow: none; }
+.music-tile > a > div { border-radius: 12px; margin-bottom: 20px; box-shadow: 0 12px 35px rgb(0 0 0 / 0.22); }
+.music-tile h3 { font-size: 16px; font-weight: 500; line-height: 1.6; }
+.music-tile > p { font-size: 12px; margin-top: 5px; }
+.project-showcase { background: #0e151a; }
+.project-tile { padding: 14px; }
+.project-tile > a > div { border-radius: 10px; margin-bottom: 18px; }
+.project-tile h3, .project-tile > p { margin-inline: 6px; }
+.project-tile > p { margin-bottom: 8px; }
+.dark .journal-row { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 26px 0; background: transparent; gap: 24px; }
+.dark .journal-row:hover { border-color: var(--brand); box-shadow: none; transform: translateX(4px); }
+.journal-row h3 { font-size: 19px; font-weight: 500; }
+.journal-showcase .space-y-5 > * { margin-block: 0; }
+
+.site-footer { background: #080d10; border-color: var(--line); padding-block: 64px 28px; }
+.footer-wordmark { font-size: clamp(2.3rem, 5vw, 4rem); font-weight: 500; letter-spacing: -0.065em; line-height: 1.2; }
+.footer-wordmark span { color: var(--brand); }
+.footer-bottom { border-color: var(--line); text-align: left; margin-top: 48px; padding-top: 24px; }
+.site-footer a[aria-label] { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; }
+.site-footer a[aria-label]:hover { border-color: var(--brand); color: var(--color-accent-300); }
+
+@media (min-width: 1024px) {
+  /* 封面错落排列，像展厅里的唱片陈列。 */
+  .music-gallery .music-tile:nth-child(even) { margin-top: 48px; }
+}
+@media (max-width: 1023px) {
+  .hero-layout { grid-template-columns: minmax(0, 1fr); }
+  .hero-aside { display: none; }
+  .home-hero { min-height: 680px; }
+}
+@media (max-width: 639px) {
+  .home-hero { min-height: 620px; padding-top: 64px; padding-bottom: 100px; }
+  .hero-avatar { margin-bottom: 32px; }
+  .hero-name { font-size: clamp(2.8rem, 12.5vw, 5rem); }
+  .hero-greeting { font-size: 22px; }
+  .hero-actions { gap: 10px; }
+  .hero-actions .btn { padding: 12px 17px; font-size: 12px; }
+  .hero-bottom .editorial-label { font-size: 9px; letter-spacing: 0.08em; }
+  .home-section .reveal.mb-12 { align-items: start; gap: 12px; }
+  .home-section .reveal.mb-12 > .btn { white-space: nowrap; padding: 10px 14px; font-size: 11px; }
+  .section-eyebrow { font-size: 9px; margin-bottom: 14px; }
+  .music-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; }
+  .music-tile > a > div { border-radius: 8px; margin-bottom: 12px; }
+  .music-tile h3 { font-size: 14px; }
+  .music-tile > p { font-size: 11px; }
+  .site-footer .footer-bottom { text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dark .journal-row:hover { transform: none; }
+}
+
+
+/* 工作室标志：用显示滤镜呈现白色，保留素材本身的黑色路径。 */
+.studio-logo { display: block; max-width: 100%; height: auto; filter: brightness(0) invert(1); }
+.studio-logo-panel {
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 18px;
+  background: rgb(11 16 20 / 0.72);
+}
+.studio-logo-square { width: 162px; margin-inline: auto; }
+.hero-aside .sound-signature { height: 64px; margin-block: 24px 18px; }
+.footer-studio { padding-inline: 24px; transform: translateY(-8px); }
+.footer-studio-label { display: block; margin-bottom: 16px; font-family: var(--font-sans); font-size: 9px; }
+.studio-logo-horizontal { width: 220px; }
+@media (max-width: 639px) {
+  .footer-studio { margin-block: 22px; padding-inline: 0; }
+  .studio-logo-horizontal { width: 200px; }
 }

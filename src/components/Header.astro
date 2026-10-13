@@ -8,12 +8,14 @@ const navItems = [
 ];
 
 const currentPath = Astro.url.pathname;
+const isActive = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
 
-<header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80">
+<header class="site-header sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80">
   <nav class="container-main flex h-20 items-center justify-between">
-    <a href="/" class="text-xl font-bold text-slate-900 no-underline dark:text-white">
-      Nathuris
+    <a href="/" aria-label="Nathuris 首页" class="brand-link text-xl font-bold text-slate-900 no-underline dark:text-white">
+      <span class="brand-symbol" aria-hidden="true">n.</span>
+      <span>Nathuris<span class="brand-caption">音乐与创作</span></span>
     </a>
 
     <!-- 桌面导航 -->
@@ -21,8 +23,9 @@ const currentPath = Astro.url.pathname;
       {navItems.map((item) => (
         <a
           href={item.href}
+          aria-current={isActive(item.href) ? 'page' : undefined}
           class={`nav-link rounded-md px-3.5 py-2 text-sm font-medium transition-colors no-underline ${
-            currentPath === item.href
+            isActive(item.href)
               ? 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-400'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
           }`}
@@ -38,6 +41,8 @@ const currentPath = Astro.url.pathname;
         id="mobile-menu-btn"
         class="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
         aria-label="打开菜单"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -47,12 +52,13 @@ const currentPath = Astro.url.pathname;
   </nav>
 
   <!-- 移动端菜单 -->
-  <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-950 sm:hidden">
+  <div id="mobile-menu" class="mobile-navigation hidden border-t border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-950 sm:hidden">
     {navItems.map((item) => (
       <a
         href={item.href}
+          aria-current={isActive(item.href) ? 'page' : undefined}
         class={`block rounded-md px-3.5 py-2 text-sm font-medium transition-colors no-underline ${
-          currentPath === item.href
+          isActive(item.href)
             ? 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-400'
             : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
         }`}
@@ -64,9 +70,32 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-  });
+  // 页面切换后重新连接菜单按钮，保证手机导航始终可用。
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (!btn || !menu || btn.dataset.menuReady) return;
+    btn.dataset.menuReady = 'true';
+    const close = () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', '打开菜单');
+    };
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    });
+    menu.addEventListener('click', (event) => {
+      if ((event.target as Element).closest('a')) close();
+    });
+    btn.closest('header')?.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        close();
+        btn.focus();
+      }
+    });
+  }
+  initMobileMenu();
+  document.addEventListener('astro:page-load', initMobileMenu);
 </script>

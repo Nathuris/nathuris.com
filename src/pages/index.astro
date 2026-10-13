@@ -50,7 +50,7 @@ const recentPosts = posts
 <BaseLayout title="首页" description="Nathuris 的个人网站 — 音乐人 & 开发者，展示原创音乐与 Vibe Coding 作品。">
 
   <!-- Hero 区域：靠左排列。若在后台设置了背景大图，则铺满并自动压暗 -->
-  <section class:list={['relative overflow-hidden', hasHero ? 'py-28 sm:py-40 lg:py-48' : 'py-24 sm:py-32 lg:py-40']}>
+  <section class:list={['home-hero relative overflow-hidden', hasHero ? 'py-28 sm:py-40 lg:py-48' : 'py-24 sm:py-32 lg:py-40']}>
     {
       hasHero && (
         <div class="absolute inset-0" aria-hidden="true">
@@ -110,11 +110,11 @@ const recentPosts = posts
       )
     }
 
-    <div class="container-main relative">
-      <div class="max-w-3xl">
+    <div class="container-main hero-layout relative">
+      <div class="hero-copy">
         <div
           class:list={[
-            'fx-rise mb-8 h-20 w-20 overflow-hidden rounded-full',
+            'hero-avatar fx-rise mb-8 h-20 w-20 overflow-hidden rounded-full',
             hasHero
               ? 'bg-white/10 ring-2 ring-white/40'
               : 'bg-accent-50 ring-1 ring-accent-200 dark:bg-accent-950 dark:ring-accent-800',
@@ -138,17 +138,19 @@ const recentPosts = posts
         <h1
           aria-label={heroTitle}
           class:list={[
-            'text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl',
+            'hero-title text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl',
             hasHero && 'text-white',
           ]}
         >
           <span aria-hidden="true">
+            <span class="hero-greeting">
             {heroGreetingChars.map((ch, i) => (
               <span class="fx-char" style={`--d:${charDelay(i)}`}>
                 {ch === ' ' ? ' ' : ch}
               </span>
             ))}
-            <span class:list={['whitespace-nowrap', heroNameClass]}>
+            </span>
+            <span class:list={['hero-name whitespace-nowrap', heroNameClass]}>
               {heroNameChars.map((ch, i) => (
                 <span class="fx-char" style={`--d:${charDelay(heroGreetingChars.length + i)}`}>
                   {ch}
@@ -176,7 +178,7 @@ const recentPosts = posts
           </p>
         )}
 
-        <div class="fx-rise mt-10 flex flex-wrap items-center gap-3" style="--d:0.62s">
+        <div class="hero-actions fx-rise mt-10 flex flex-wrap items-center gap-3" style="--d:0.62s">
           <a href="/music/" class="btn btn-primary">我的音乐</a>
           <a href="/projects/" class:list={['btn', hasHero ? 'btn-outline-light' : 'btn-outline']}>
             我的项目
@@ -186,16 +188,30 @@ const recentPosts = posts
           </a>
         </div>
       </div>
+      <div class="hero-aside fx-rise" style="--d:0.72s">
+        <span class="editorial-label">NATHURIS / SOUND & CREATION</span>
+        <div class="sound-signature" aria-hidden="true">
+          {Array.from({ length: 29 }, (_, i) => (
+            <span style={`--bar:${18 + Math.round(Math.abs(Math.sin(i * 0.58) * Math.cos(i * 0.21)) * 82)}%`} />
+          ))}
+        </div>
+        <span class="hero-aside-caption">音乐 · 创作 · 记录</span>
+      </div>
+    </div>
+    <div class="container-main hero-bottom relative">
+      <span class="editorial-label">音乐与灵感，在这里相遇</span>
+      <a href="#selected-music" class="hero-scroll">向下探索 <span aria-hidden="true">↓</span></a>
     </div>
   </section>
 
   <!-- 精选音乐 -->
   {
     featuredMusic.length > 0 && (
-      <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
+      <section id="selected-music" class="home-section music-showcase border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
           <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
+              <p class="editorial-label section-eyebrow">01 / SELECTED SOUNDS</p>
               <h2 class="section-title">音乐作品</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">原创音乐精选</p>
             </div>
@@ -203,9 +219,9 @@ const recentPosts = posts
               全部作品 →
             </a>
           </div>
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="music-gallery grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featuredMusic.map((item, i) => (
-              <article class="card group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
+              <article class="card music-tile group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
                 <a href={`/music/${item.id}/`} class="no-underline">
                   {item.data.coverImage ? (
                     <div class="mb-3 aspect-square overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
@@ -241,10 +257,11 @@ const recentPosts = posts
   <!-- 精选项目 -->
   {
     featuredProjects.length > 0 && (
-      <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
+      <section id={featuredMusic.length === 0 ? 'selected-music' : undefined} class="home-section project-showcase border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
           <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
+              <p class="editorial-label section-eyebrow">02 / SELECTED PROJECTS</p>
               <h2 class="section-title">项目作品</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">Vibe Coding 精选项目</p>
             </div>
@@ -254,7 +271,7 @@ const recentPosts = posts
           </div>
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featuredProjects.map((item, i) => (
-              <article class="card group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
+              <article class="card project-tile group reveal" style={`--d:${(i * 0.09).toFixed(2)}s`}>
                 <a href={`/projects/${item.id}/`} class="no-underline">
                   {item.data.image ? (
                     <div class="mb-3 aspect-video overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
@@ -290,10 +307,11 @@ const recentPosts = posts
   <!-- 近期博客 -->
   {
     recentPosts.length > 0 && (
-      <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
+      <section class="home-section journal-showcase border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main">
           <div class="reveal mb-12 flex items-end justify-between gap-6">
             <div>
+              <p class="editorial-label section-eyebrow">03 / JOURNAL</p>
               <h2 class="section-title">近期动态</h2>
               <p class="mt-3 text-slate-500 dark:text-slate-400">最新文章和分享</p>
             </div>
@@ -305,7 +323,7 @@ const recentPosts = posts
             {recentPosts.map((post, i) => (
               <a
                 href={`/blog/${post.id}/`}
-                class="card reveal flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between"
+                class="card journal-row reveal flex flex-col no-underline hover:border-accent-200 dark:hover:border-accent-800 sm:flex-row sm:items-center sm:justify-between"
                 style={`--d:${(i * 0.09).toFixed(2)}s`}
               >
                 <div>
@@ -328,7 +346,7 @@ const recentPosts = posts
   <!-- 空状态（当所有集合都为空时显示） -->
   {
     featuredMusic.length === 0 && featuredProjects.length === 0 && (
-      <section class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
+      <section id="selected-music" class="border-t border-slate-100 py-20 sm:py-24 dark:border-slate-800">
         <div class="container-main text-center">
           <p class="text-slate-400 dark:text-slate-500">
             内容正在准备中，请稍后再来。
